@@ -2623,8 +2623,8 @@
 				INFOPLIST_FILE = MissileDemo/Resources/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/james/Desktop/MissileDemo/MissileDemo/libs/cocos2dx/platform/third_party/ios/libraries,
-					/Users/james/Desktop/MissileDemo/MissileDemo/libs/libwebsockets/ios/lib,
+					MissileDemo/libs/cocos2dx/platform/third_party/ios/libraries,
+					MissileDemo/libs/libwebsockets/ios/lib,
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -2649,8 +2649,8 @@
 				INFOPLIST_FILE = MissileDemo/Resources/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/james/Desktop/MissileDemo/MissileDemo/libs/cocos2dx/platform/third_party/ios/libraries,
-					/Users/james/Desktop/MissileDemo/MissileDemo/libs/libwebsockets/ios/lib,
+					MissileDemo/libs/cocos2dx/platform/third_party/ios/libraries,
+					MissileDemo/libs/libwebsockets/ios/lib,
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -2684,6 +2684,7 @@
 				1A92BBAE1801F66000F434EE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
