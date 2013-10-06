@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A4A4EC81801FC6400347E01 /* Box2DDebugDrawLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A4EC41801FC6400347E01 /* Box2DDebugDrawLayer.cpp */; };
+		1A4A4EC91801FC6400347E01 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A4EC61801FC6400347E01 /* Viewport.cpp */; };
+		1A4A4ECC1801FCCD00347E01 /* Box2DDebugDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A4ECA1801FCCD00347E01 /* Box2DDebugDraw.cpp */; };
 		1A92B7CF1801F65A00F434EE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A92B7CE1801F65A00F434EE /* QuartzCore.framework */; };
 		1A92B7D11801F65A00F434EE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A92B7D01801F65A00F434EE /* OpenGLES.framework */; };
 		1A92B7D31801F65A00F434EE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A92B7D21801F65A00F434EE /* OpenAL.framework */; };
@@ -295,7 +298,6 @@
 		1A92BB961801F66000F434EE /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BB951801F66000F434EE /* b2Rope.cpp */; };
 		1A92BB9E1801F66000F434EE /* libwebsockets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A92BB9D1801F66000F434EE /* libwebsockets.a */; };
 		1A92BBA41801F66000F434EE /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBA31801F66000F434EE /* AppDelegate.cpp */; };
-		1A92BBA71801F66000F434EE /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBA61801F66000F434EE /* HelloWorldScene.cpp */; };
 		1A92BBA91801F66000F434EE /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A92BBA81801F66000F434EE /* blocks.png */; };
 		1A92BBBF1801F85F00F434EE /* DebugLinesLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBB11801F85F00F434EE /* DebugLinesLayer.cpp */; };
 		1A92BBC01801F85F00F434EE /* DebugMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBB31801F85F00F434EE /* DebugMenuLayer.cpp */; };
@@ -307,6 +309,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A4A4EC41801FC6400347E01 /* Box2DDebugDrawLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2DDebugDrawLayer.cpp; sourceTree = "<group>"; };
+		1A4A4EC51801FC6400347E01 /* Box2DDebugDrawLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DDebugDrawLayer.h; sourceTree = "<group>"; };
+		1A4A4EC61801FC6400347E01 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
+		1A4A4EC71801FC6400347E01 /* Viewport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Viewport.h; sourceTree = "<group>"; };
+		1A4A4ECA1801FCCD00347E01 /* Box2DDebugDraw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2DDebugDraw.cpp; sourceTree = "<group>"; };
+		1A4A4ECB1801FCCD00347E01 /* Box2DDebugDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DDebugDraw.h; sourceTree = "<group>"; };
 		1A92B7CB1801F65A00F434EE /* MissileDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MissileDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A92B7CE1801F65A00F434EE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1A92B7D01801F65A00F434EE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -927,8 +935,6 @@
 		1A92BBA01801F66000F434EE /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		1A92BBA21801F66000F434EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		1A92BBA31801F66000F434EE /* AppDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = Classes/AppDelegate.cpp; sourceTree = "<group>"; };
-		1A92BBA51801F66000F434EE /* HelloWorldScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = Classes/HelloWorldScene.h; sourceTree = "<group>"; };
-		1A92BBA61801F66000F434EE /* HelloWorldScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
 		1A92BBA81801F66000F434EE /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
 		1A92BBAF1801F85F00F434EE /* CommonProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProject.h; sourceTree = "<group>"; };
 		1A92BBB01801F85F00F434EE /* CommonSTL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonSTL.h; sourceTree = "<group>"; };
@@ -2216,6 +2222,10 @@
 		1A92BBA11801F66000F434EE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1A4A4ECA1801FCCD00347E01 /* Box2DDebugDraw.cpp */,
+				1A4A4ECB1801FCCD00347E01 /* Box2DDebugDraw.h */,
+				1A4A4EC41801FC6400347E01 /* Box2DDebugDrawLayer.cpp */,
+				1A4A4EC51801FC6400347E01 /* Box2DDebugDrawLayer.h */,
 				1A92BBAF1801F85F00F434EE /* CommonProject.h */,
 				1A92BBB01801F85F00F434EE /* CommonSTL.h */,
 				1A92BBB11801F85F00F434EE /* DebugLinesLayer.cpp */,
@@ -2235,8 +2245,8 @@
 				1A92BBBE1801F85F00F434EE /* TapDragPinchInput.h */,
 				1A92BBA21801F66000F434EE /* AppDelegate.h */,
 				1A92BBA31801F66000F434EE /* AppDelegate.cpp */,
-				1A92BBA51801F66000F434EE /* HelloWorldScene.h */,
-				1A92BBA61801F66000F434EE /* HelloWorldScene.cpp */,
+				1A4A4EC61801FC6400347E01 /* Viewport.cpp */,
+				1A4A4EC71801FC6400347E01 /* Viewport.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2382,10 +2392,12 @@
 				1A92B8FF1801F65C00F434EE /* CCImageCommonWebp.cpp in Sources */,
 				1A92B8711801F65B00F434EE /* CCGrabber.cpp in Sources */,
 				1A92B8251801F65B00F434EE /* CCActionTiledGrid.cpp in Sources */,
+				1A4A4EC91801FC6400347E01 /* Viewport.cpp in Sources */,
 				1A92BACF1801F65F00F434EE /* AnimationStateData.cpp in Sources */,
 				1A92B9771801F65D00F434EE /* CCSpriteBatchNode.cpp in Sources */,
 				1A92BA7A1801F65F00F434EE /* CCControlPotentiometer.cpp in Sources */,
 				1A92B8D91801F65C00F434EE /* CCClippingNode.cpp in Sources */,
+				1A4A4EC81801FC6400347E01 /* Box2DDebugDrawLayer.cpp in Sources */,
 				1A92B8AE1801F65B00F434EE /* vec4.c in Sources */,
 				1A92BAB91801F65F00F434EE /* HttpClient.cpp in Sources */,
 				1A92BAD21801F65F00F434EE /* Atlas.cpp in Sources */,
@@ -2428,7 +2440,6 @@
 				1A92B9131801F65C00F434EE /* CCDevice.mm in Sources */,
 				1A92BB641801F66000F434EE /* b2ContactSolver.cpp in Sources */,
 				1A92B83B1801F65B00F434EE /* ccFPSImages.c in Sources */,
-				1A92BBA71801F66000F434EE /* HelloWorldScene.cpp in Sources */,
 				1A92BB1B1801F66000F434EE /* b2DynamicTree.cpp in Sources */,
 				1A92B9321801F65C00F434EE /* AccelerometerSimulation.m in Sources */,
 				1A92B8131801F65B00F434EE /* CCActionGrid3D.cpp in Sources */,
@@ -2557,6 +2568,7 @@
 				1A92B8DC1801F65C00F434EE /* CCMotionStreak.cpp in Sources */,
 				1A92BB441801F66000F434EE /* b2Body.cpp in Sources */,
 				1A92B84F1801F65B00F434EE /* CCDictionary.cpp in Sources */,
+				1A4A4ECC1801FCCD00347E01 /* Box2DDebugDraw.cpp in Sources */,
 				1A92B9811801F65D00F434EE /* base64.cpp in Sources */,
 				1A92B8381801F65B00F434EE /* CCDirector.cpp in Sources */,
 				1A92B80A1801F65B00F434EE /* CCActionCatmullRom.cpp in Sources */,
