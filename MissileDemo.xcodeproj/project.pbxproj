@@ -297,6 +297,13 @@
 		1A92BBA41801F66000F434EE /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBA31801F66000F434EE /* AppDelegate.cpp */; };
 		1A92BBA71801F66000F434EE /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBA61801F66000F434EE /* HelloWorldScene.cpp */; };
 		1A92BBA91801F66000F434EE /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A92BBA81801F66000F434EE /* blocks.png */; };
+		1A92BBBF1801F85F00F434EE /* DebugLinesLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBB11801F85F00F434EE /* DebugLinesLayer.cpp */; };
+		1A92BBC01801F85F00F434EE /* DebugMenuLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBB31801F85F00F434EE /* DebugMenuLayer.cpp */; };
+		1A92BBC11801F85F00F434EE /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBB51801F85F00F434EE /* MainScene.cpp */; };
+		1A92BBC21801F85F00F434EE /* MathUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBB71801F85F00F434EE /* MathUtilities.cpp */; };
+		1A92BBC31801F85F00F434EE /* Notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBB91801F85F00F434EE /* Notifier.cpp */; };
+		1A92BBC41801F85F00F434EE /* Stopwatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBBB1801F85F00F434EE /* Stopwatch.cpp */; };
+		1A92BBC51801F85F00F434EE /* TapDragPinchInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBBD1801F85F00F434EE /* TapDragPinchInput.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -923,6 +930,23 @@
 		1A92BBA51801F66000F434EE /* HelloWorldScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = Classes/HelloWorldScene.h; sourceTree = "<group>"; };
 		1A92BBA61801F66000F434EE /* HelloWorldScene.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
 		1A92BBA81801F66000F434EE /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
+		1A92BBAF1801F85F00F434EE /* CommonProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProject.h; sourceTree = "<group>"; };
+		1A92BBB01801F85F00F434EE /* CommonSTL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonSTL.h; sourceTree = "<group>"; };
+		1A92BBB11801F85F00F434EE /* DebugLinesLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugLinesLayer.cpp; sourceTree = "<group>"; };
+		1A92BBB21801F85F00F434EE /* DebugLinesLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugLinesLayer.h; sourceTree = "<group>"; };
+		1A92BBB31801F85F00F434EE /* DebugMenuLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugMenuLayer.cpp; sourceTree = "<group>"; };
+		1A92BBB41801F85F00F434EE /* DebugMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugMenuLayer.h; sourceTree = "<group>"; };
+		1A92BBB51801F85F00F434EE /* MainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MainScene.cpp; sourceTree = "<group>"; };
+		1A92BBB61801F85F00F434EE /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
+		1A92BBB71801F85F00F434EE /* MathUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MathUtilities.cpp; sourceTree = "<group>"; };
+		1A92BBB81801F85F00F434EE /* MathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathUtilities.h; sourceTree = "<group>"; };
+		1A92BBB91801F85F00F434EE /* Notifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Notifier.cpp; sourceTree = "<group>"; };
+		1A92BBBA1801F85F00F434EE /* Notifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifier.h; sourceTree = "<group>"; };
+		1A92BBBB1801F85F00F434EE /* Stopwatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stopwatch.cpp; sourceTree = "<group>"; };
+		1A92BBBC1801F85F00F434EE /* Stopwatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stopwatch.h; sourceTree = "<group>"; };
+		1A92BBBD1801F85F00F434EE /* TapDragPinchInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TapDragPinchInput.cpp; sourceTree = "<group>"; };
+		1A92BBBE1801F85F00F434EE /* TapDragPinchInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapDragPinchInput.h; sourceTree = "<group>"; };
+		1A92BBC61801F94D00F434EE /* SingletonTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingletonTemplate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2192,6 +2216,23 @@
 		1A92BBA11801F66000F434EE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1A92BBAF1801F85F00F434EE /* CommonProject.h */,
+				1A92BBB01801F85F00F434EE /* CommonSTL.h */,
+				1A92BBB11801F85F00F434EE /* DebugLinesLayer.cpp */,
+				1A92BBB21801F85F00F434EE /* DebugLinesLayer.h */,
+				1A92BBB31801F85F00F434EE /* DebugMenuLayer.cpp */,
+				1A92BBB41801F85F00F434EE /* DebugMenuLayer.h */,
+				1A92BBB51801F85F00F434EE /* MainScene.cpp */,
+				1A92BBB61801F85F00F434EE /* MainScene.h */,
+				1A92BBB71801F85F00F434EE /* MathUtilities.cpp */,
+				1A92BBB81801F85F00F434EE /* MathUtilities.h */,
+				1A92BBB91801F85F00F434EE /* Notifier.cpp */,
+				1A92BBBA1801F85F00F434EE /* Notifier.h */,
+				1A92BBC61801F94D00F434EE /* SingletonTemplate.h */,
+				1A92BBBB1801F85F00F434EE /* Stopwatch.cpp */,
+				1A92BBBC1801F85F00F434EE /* Stopwatch.h */,
+				1A92BBBD1801F85F00F434EE /* TapDragPinchInput.cpp */,
+				1A92BBBE1801F85F00F434EE /* TapDragPinchInput.h */,
 				1A92BBA21801F66000F434EE /* AppDelegate.h */,
 				1A92BBA31801F66000F434EE /* AppDelegate.cpp */,
 				1A92BBA51801F66000F434EE /* HelloWorldScene.h */,
@@ -2291,6 +2332,7 @@
 				1A92B9C11801F65E00F434EE /* CCTextFieldTTF.cpp in Sources */,
 				1A92B9251801F65C00F434EE /* CCLock.cpp in Sources */,
 				1A92BAE41801F65F00F434EE /* CCSkeleton.cpp in Sources */,
+				1A92BBC11801F85F00F434EE /* MainScene.cpp in Sources */,
 				1A92B9D51801F65E00F434EE /* CCParallaxNode.cpp in Sources */,
 				1A92B8421801F65B00F434EE /* CCAffineTransform.cpp in Sources */,
 				1A92B7FD1801F65B00F434EE /* RootViewController.mm in Sources */,
@@ -2377,6 +2419,7 @@
 				1A92BA491801F65F00F434EE /* CCNodeLoader.cpp in Sources */,
 				1A92BAE71801F65F00F434EE /* CCSkeletonAnimation.cpp in Sources */,
 				1A92B8041801F65B00F434EE /* CCAction.cpp in Sources */,
+				1A92BBBF1801F85F00F434EE /* DebugLinesLayer.cpp in Sources */,
 				1A92BAFC1801F66000F434EE /* Skin.cpp in Sources */,
 				1A92BA561801F65F00F434EE /* CCScrollViewLoader.cpp in Sources */,
 				1A92BAA91801F65F00F434EE /* CCSorting.cpp in Sources */,
@@ -2417,6 +2460,7 @@
 				1A92BADB1801F65F00F434EE /* AttachmentLoader.cpp in Sources */,
 				1A92BA6D1801F65F00F434EE /* CCControl.cpp in Sources */,
 				1A92B85B1801F65B00F434EE /* CCObject.cpp in Sources */,
+				1A92BBC01801F85F00F434EE /* DebugMenuLayer.cpp in Sources */,
 				1A92BA8F1801F65F00F434EE /* CCScale9Sprite.cpp in Sources */,
 				1A92B9971801F65E00F434EE /* CCComponent.cpp in Sources */,
 				1A92B9CE1801F65E00F434EE /* CCTextureETC.cpp in Sources */,
@@ -2426,6 +2470,7 @@
 				1A92BA3C1801F65F00F434EE /* CCLayerLoader.cpp in Sources */,
 				1A92BA891801F65F00F434EE /* CCControlUtils.cpp in Sources */,
 				1A92B98A1801F65D00F434EE /* CCProfiling.cpp in Sources */,
+				1A92BBC51801F85F00F434EE /* TapDragPinchInput.cpp in Sources */,
 				1A92B90C1801F65C00F434EE /* CCAccelerometer.mm in Sources */,
 				1A92BA831801F65F00F434EE /* CCControlStepper.cpp in Sources */,
 				1A92B9511801F65D00F434EE /* CCGLProgram.cpp in Sources */,
@@ -2466,6 +2511,7 @@
 				1A92B9D11801F65E00F434EE /* CCTexturePVR.cpp in Sources */,
 				1A92B90F1801F65C00F434EE /* CCApplication.mm in Sources */,
 				1A92BA771801F65F00F434EE /* CCControlHuePicker.cpp in Sources */,
+				1A92BBC31801F85F00F434EE /* Notifier.cpp in Sources */,
 				1A92BB111801F66000F434EE /* b2CollideEdge.cpp in Sources */,
 				1A92B8F81801F65C00F434EE /* CCEGLViewProtocol.cpp in Sources */,
 				1A92B8A81801F65B00F434EE /* utility.c in Sources */,
@@ -2524,6 +2570,7 @@
 				1A92B8B81801F65B00F434EE /* CCLabelAtlas.cpp in Sources */,
 				1A92BB611801F66000F434EE /* b2Contact.cpp in Sources */,
 				1A92B8741801F65B00F434EE /* CCGrid.cpp in Sources */,
+				1A92BBC21801F85F00F434EE /* MathUtilities.cpp in Sources */,
 				1A92B9AB1801F65E00F434EE /* TransformUtils.cpp in Sources */,
 				1A92B8EC1801F65C00F434EE /* CCParticleSystem.cpp in Sources */,
 				1A92B8BE1801F65B00F434EE /* CCLabelTTF.cpp in Sources */,
@@ -2538,6 +2585,7 @@
 				1A92BBA41801F66000F434EE /* AppDelegate.cpp in Sources */,
 				1A92BA731801F65F00F434EE /* CCControlColourPicker.cpp in Sources */,
 				1A92BB541801F66000F434EE /* b2WorldCallbacks.cpp in Sources */,
+				1A92BBC41801F85F00F434EE /* Stopwatch.cpp in Sources */,
 				1A92BB861801F66000F434EE /* b2PulleyJoint.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
