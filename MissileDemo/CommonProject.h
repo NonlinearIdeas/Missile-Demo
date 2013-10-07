@@ -30,6 +30,9 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 #include "Box2D.h"
+#include "tnt.h"
+#include "jama.h"
+
 
 #define TICKS_PER_SECOND (30)
 #define SECONDS_PER_TICK (1.0/30)
@@ -48,6 +51,11 @@ typedef b2Transform Transform;
 
 using namespace cocos2d;
 using namespace cocos2d::extension;
+using namespace TNT;
+using namespace JAMA;
+
+typedef float Number;
+typedef Array2D<Number> Mat;
 
 typedef struct LINE_METERS_DATA
 {
