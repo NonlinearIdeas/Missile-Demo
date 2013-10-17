@@ -16,10 +16,10 @@ _debugDraw(NULL)
    
 }
 
-Box2DDebugDrawLayer* Box2DDebugDrawLayer::create(b2World* world, float32 worldSizeMeters)
+Box2DDebugDrawLayer* Box2DDebugDrawLayer::create(b2World* world)
 {
    Box2DDebugDrawLayer *pRet = new Box2DDebugDrawLayer();
-   if (pRet && pRet->init(world,worldSizeMeters))
+   if (pRet && pRet->init(world))
    {
       pRet->autorelease();
       return pRet;
@@ -47,7 +47,7 @@ void Box2DDebugDrawLayer::draw()
    }
 }
 
-bool Box2DDebugDrawLayer::init(b2World* world, float32 worldSizeMeters)
+bool Box2DDebugDrawLayer::init(b2World* world)
 {
    if(!CCLayer::init())
    {

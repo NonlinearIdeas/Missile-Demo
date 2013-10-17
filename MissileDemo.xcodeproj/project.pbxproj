@@ -306,6 +306,11 @@
 		1A92BBC31801F85F00F434EE /* Notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBB91801F85F00F434EE /* Notifier.cpp */; };
 		1A92BBC41801F85F00F434EE /* Stopwatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBBB1801F85F00F434EE /* Stopwatch.cpp */; };
 		1A92BBC51801F85F00F434EE /* TapDragPinchInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBBD1801F85F00F434EE /* TapDragPinchInput.cpp */; };
+		1AC94042180D551700734EFD /* PIDController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC94040180D551700734EFD /* PIDController.cpp */; };
+		1AC94045180D5C1E00734EFD /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC94043180D5C1E00734EFD /* Entity.cpp */; };
+		1AC94048180D5CC700734EFD /* Missile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC94046180D5CC700734EFD /* Missile.cpp */; };
+		1ADEBDCA180E0CE000BEDCAD /* GridLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ADEBDC8180E0CE000BEDCAD /* GridLayer.cpp */; };
+		1AF389021802393D0080CB20 /* Interpolator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AF389001802393D0080CB20 /* Interpolator.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -953,6 +958,43 @@
 		1A92BBBD1801F85F00F434EE /* TapDragPinchInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TapDragPinchInput.cpp; sourceTree = "<group>"; };
 		1A92BBBE1801F85F00F434EE /* TapDragPinchInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapDragPinchInput.h; sourceTree = "<group>"; };
 		1A92BBC61801F94D00F434EE /* SingletonTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingletonTemplate.h; sourceTree = "<group>"; };
+		1AC94040180D551700734EFD /* PIDController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PIDController.cpp; sourceTree = "<group>"; };
+		1AC94041180D551700734EFD /* PIDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIDController.h; sourceTree = "<group>"; };
+		1AC94043180D5C1E00734EFD /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
+		1AC94044180D5C1E00734EFD /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
+		1AC94046180D5CC700734EFD /* Missile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Missile.cpp; sourceTree = "<group>"; };
+		1AC94047180D5CC700734EFD /* Missile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Missile.h; sourceTree = "<group>"; };
+		1ADEBDC8180E0CE000BEDCAD /* GridLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridLayer.cpp; sourceTree = "<group>"; };
+		1ADEBDC9180E0CE000BEDCAD /* GridLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridLayer.h; sourceTree = "<group>"; };
+		1AF388E4180234E80080CB20 /* jama_cholesky.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jama_cholesky.h; sourceTree = "<group>"; };
+		1AF388E5180234E80080CB20 /* jama_eig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jama_eig.h; sourceTree = "<group>"; };
+		1AF388E6180234E80080CB20 /* jama_lu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jama_lu.h; sourceTree = "<group>"; };
+		1AF388E7180234E80080CB20 /* jama_qr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jama_qr.h; sourceTree = "<group>"; };
+		1AF388E8180234E80080CB20 /* jama_svd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jama_svd.h; sourceTree = "<group>"; };
+		1AF388E91802350A0080CB20 /* tnt_array1d_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_array1d_utils.h; sourceTree = "<group>"; };
+		1AF388EA1802350A0080CB20 /* tnt_array1d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_array1d.h; sourceTree = "<group>"; };
+		1AF388EB1802350A0080CB20 /* tnt_array2d_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_array2d_utils.h; sourceTree = "<group>"; };
+		1AF388EC1802350A0080CB20 /* tnt_array2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_array2d.h; sourceTree = "<group>"; };
+		1AF388ED1802350A0080CB20 /* tnt_array3d_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_array3d_utils.h; sourceTree = "<group>"; };
+		1AF388EE1802350A0080CB20 /* tnt_array3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_array3d.h; sourceTree = "<group>"; };
+		1AF388EF1802350A0080CB20 /* tnt_cmat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_cmat.h; sourceTree = "<group>"; };
+		1AF388F01802350A0080CB20 /* tnt_fortran_array1d_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_fortran_array1d_utils.h; sourceTree = "<group>"; };
+		1AF388F11802350A0080CB20 /* tnt_fortran_array1d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_fortran_array1d.h; sourceTree = "<group>"; };
+		1AF388F21802350A0080CB20 /* tnt_fortran_array2d_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_fortran_array2d_utils.h; sourceTree = "<group>"; };
+		1AF388F31802350A0080CB20 /* tnt_fortran_array2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_fortran_array2d.h; sourceTree = "<group>"; };
+		1AF388F41802350A0080CB20 /* tnt_fortran_array3d_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_fortran_array3d_utils.h; sourceTree = "<group>"; };
+		1AF388F51802350A0080CB20 /* tnt_fortran_array3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_fortran_array3d.h; sourceTree = "<group>"; };
+		1AF388F61802350A0080CB20 /* tnt_i_refvec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_i_refvec.h; sourceTree = "<group>"; };
+		1AF388F71802350A0080CB20 /* tnt_math_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_math_utils.h; sourceTree = "<group>"; };
+		1AF388F91802350A0080CB20 /* tnt_stopwatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_stopwatch.h; sourceTree = "<group>"; };
+		1AF388FA1802350A0080CB20 /* tnt_subscript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_subscript.h; sourceTree = "<group>"; };
+		1AF388FB1802350A0080CB20 /* tnt_vec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_vec.h; sourceTree = "<group>"; };
+		1AF388FC1802350A0080CB20 /* tnt_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_version.h; sourceTree = "<group>"; };
+		1AF388FD1802350A0080CB20 /* tnt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt.h; sourceTree = "<group>"; };
+		1AF388FE1802369F0080CB20 /* tnt_sparse_matrix_csr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tnt_sparse_matrix_csr.h; sourceTree = "<group>"; };
+		1AF388FF1802385B0080CB20 /* jama.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jama.h; sourceTree = "<group>"; };
+		1AF389001802393D0080CB20 /* Interpolator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Interpolator.cpp; sourceTree = "<group>"; };
+		1AF389011802393D0080CB20 /* Interpolator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interpolator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1056,6 +1098,7 @@
 		1A92B8001801F65B00F434EE /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				1AF388E3180234C30080CB20 /* TNT */,
 				1A92B8011801F65B00F434EE /* cocos2dx */,
 				1A92B9F11801F65E00F434EE /* CocosDenshion */,
 				1A92BA091801F65E00F434EE /* extensions */,
@@ -2222,6 +2265,8 @@
 		1A92BBA11801F66000F434EE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1A92BBA21801F66000F434EE /* AppDelegate.h */,
+				1A92BBA31801F66000F434EE /* AppDelegate.cpp */,
 				1A4A4ECA1801FCCD00347E01 /* Box2DDebugDraw.cpp */,
 				1A4A4ECB1801FCCD00347E01 /* Box2DDebugDraw.h */,
 				1A4A4EC41801FC6400347E01 /* Box2DDebugDrawLayer.cpp */,
@@ -2232,23 +2277,65 @@
 				1A92BBB21801F85F00F434EE /* DebugLinesLayer.h */,
 				1A92BBB31801F85F00F434EE /* DebugMenuLayer.cpp */,
 				1A92BBB41801F85F00F434EE /* DebugMenuLayer.h */,
+				1AC94043180D5C1E00734EFD /* Entity.cpp */,
+				1AC94044180D5C1E00734EFD /* Entity.h */,
+				1ADEBDC8180E0CE000BEDCAD /* GridLayer.cpp */,
+				1ADEBDC9180E0CE000BEDCAD /* GridLayer.h */,
+				1AF389001802393D0080CB20 /* Interpolator.cpp */,
+				1AF389011802393D0080CB20 /* Interpolator.h */,
 				1A92BBB51801F85F00F434EE /* MainScene.cpp */,
 				1A92BBB61801F85F00F434EE /* MainScene.h */,
 				1A92BBB71801F85F00F434EE /* MathUtilities.cpp */,
 				1A92BBB81801F85F00F434EE /* MathUtilities.h */,
+				1AC94046180D5CC700734EFD /* Missile.cpp */,
+				1AC94047180D5CC700734EFD /* Missile.h */,
 				1A92BBB91801F85F00F434EE /* Notifier.cpp */,
 				1A92BBBA1801F85F00F434EE /* Notifier.h */,
+				1AC94040180D551700734EFD /* PIDController.cpp */,
+				1AC94041180D551700734EFD /* PIDController.h */,
 				1A92BBC61801F94D00F434EE /* SingletonTemplate.h */,
 				1A92BBBB1801F85F00F434EE /* Stopwatch.cpp */,
 				1A92BBBC1801F85F00F434EE /* Stopwatch.h */,
 				1A92BBBD1801F85F00F434EE /* TapDragPinchInput.cpp */,
 				1A92BBBE1801F85F00F434EE /* TapDragPinchInput.h */,
-				1A92BBA21801F66000F434EE /* AppDelegate.h */,
-				1A92BBA31801F66000F434EE /* AppDelegate.cpp */,
 				1A4A4EC61801FC6400347E01 /* Viewport.cpp */,
 				1A4A4EC71801FC6400347E01 /* Viewport.h */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		1AF388E3180234C30080CB20 /* TNT */ = {
+			isa = PBXGroup;
+			children = (
+				1AF388FE1802369F0080CB20 /* tnt_sparse_matrix_csr.h */,
+				1AF388E91802350A0080CB20 /* tnt_array1d_utils.h */,
+				1AF388EA1802350A0080CB20 /* tnt_array1d.h */,
+				1AF388EB1802350A0080CB20 /* tnt_array2d_utils.h */,
+				1AF388EC1802350A0080CB20 /* tnt_array2d.h */,
+				1AF388ED1802350A0080CB20 /* tnt_array3d_utils.h */,
+				1AF388EE1802350A0080CB20 /* tnt_array3d.h */,
+				1AF388EF1802350A0080CB20 /* tnt_cmat.h */,
+				1AF388F01802350A0080CB20 /* tnt_fortran_array1d_utils.h */,
+				1AF388F11802350A0080CB20 /* tnt_fortran_array1d.h */,
+				1AF388F21802350A0080CB20 /* tnt_fortran_array2d_utils.h */,
+				1AF388F31802350A0080CB20 /* tnt_fortran_array2d.h */,
+				1AF388F41802350A0080CB20 /* tnt_fortran_array3d_utils.h */,
+				1AF388F51802350A0080CB20 /* tnt_fortran_array3d.h */,
+				1AF388F61802350A0080CB20 /* tnt_i_refvec.h */,
+				1AF388F71802350A0080CB20 /* tnt_math_utils.h */,
+				1AF388F91802350A0080CB20 /* tnt_stopwatch.h */,
+				1AF388FA1802350A0080CB20 /* tnt_subscript.h */,
+				1AF388FB1802350A0080CB20 /* tnt_vec.h */,
+				1AF388FC1802350A0080CB20 /* tnt_version.h */,
+				1AF388FD1802350A0080CB20 /* tnt.h */,
+				1AF388E4180234E80080CB20 /* jama_cholesky.h */,
+				1AF388E5180234E80080CB20 /* jama_eig.h */,
+				1AF388E6180234E80080CB20 /* jama_lu.h */,
+				1AF388E7180234E80080CB20 /* jama_qr.h */,
+				1AF388E8180234E80080CB20 /* jama_svd.h */,
+				1AF388FF1802385B0080CB20 /* jama.h */,
+			);
+			name = TNT;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2389,10 +2476,12 @@
 				1A92BB251801F66000F434EE /* b2CircleShape.cpp in Sources */,
 				1A92BA671801F65F00F434EE /* CCInputDelegate.cpp in Sources */,
 				1A92B9161801F65C00F434EE /* CCDirectorCaller.mm in Sources */,
+				1AC94045180D5C1E00734EFD /* Entity.cpp in Sources */,
 				1A92B8FF1801F65C00F434EE /* CCImageCommonWebp.cpp in Sources */,
 				1A92B8711801F65B00F434EE /* CCGrabber.cpp in Sources */,
 				1A92B8251801F65B00F434EE /* CCActionTiledGrid.cpp in Sources */,
 				1A4A4EC91801FC6400347E01 /* Viewport.cpp in Sources */,
+				1ADEBDCA180E0CE000BEDCAD /* GridLayer.cpp in Sources */,
 				1A92BACF1801F65F00F434EE /* AnimationStateData.cpp in Sources */,
 				1A92B9771801F65D00F434EE /* CCSpriteBatchNode.cpp in Sources */,
 				1A92BA7A1801F65F00F434EE /* CCControlPotentiometer.cpp in Sources */,
@@ -2452,6 +2541,7 @@
 				1A92BB3D1801F66000F434EE /* b2StackAllocator.cpp in Sources */,
 				1A92B9541801F65D00F434EE /* ccGLStateCache.cpp in Sources */,
 				1A92B8321801F65B00F434EE /* CCCamera.cpp in Sources */,
+				1AC94042180D551700734EFD /* PIDController.cpp in Sources */,
 				1A92BB891801F66000F434EE /* b2RevoluteJoint.cpp in Sources */,
 				1A92BB331801F66000F434EE /* b2Draw.cpp in Sources */,
 				1A92BAED1801F65F00F434EE /* Json.cpp in Sources */,
@@ -2529,6 +2619,7 @@
 				1A92B8E61801F65C00F434EE /* CCParticleBatchNode.cpp in Sources */,
 				1A92B7FF1801F65B00F434EE /* main.m in Sources */,
 				1A92BB221801F66000F434EE /* b2ChainShape.cpp in Sources */,
+				1AC94048180D5CC700734EFD /* Missile.cpp in Sources */,
 				1A92BB281801F66000F434EE /* b2EdgeShape.cpp in Sources */,
 				1A92BB151801F66000F434EE /* b2Collision.cpp in Sources */,
 				1A92B9CB1801F65E00F434EE /* CCTextureCache.cpp in Sources */,
@@ -2574,6 +2665,7 @@
 				1A92B80A1801F65B00F434EE /* CCActionCatmullRom.cpp in Sources */,
 				1A92BAA61801F65F00F434EE /* CCScrollView.cpp in Sources */,
 				1A92B9871801F65D00F434EE /* CCPointExtension.cpp in Sources */,
+				1AF389021802393D0080CB20 /* Interpolator.cpp in Sources */,
 				1A92BB581801F66000F434EE /* b2ChainAndCircleContact.cpp in Sources */,
 				1A92BA531801F65F00F434EE /* CCScale9SpriteLoader.cpp in Sources */,
 				1A92B9901801F65E00F434EE /* ccUtils.cpp in Sources */,
@@ -2617,7 +2709,6 @@
 					"COCOS2D_DEBUG=1",
 					USE_FILE32API,
 					CC_TARGET_OS_IPHONE,
-					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
 					"CC_ENABLE_CHIPMUNK_INTEGRATION=0",
 					"CC_ENABLE_BOX2D_INTEGRATION=1",
 				);
@@ -2649,7 +2740,6 @@
 					NDEBUG,
 					USE_FILE32API,
 					CC_TARGET_OS_IPHONE,
-					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
 					"CC_ENABLE_CHIPMUNK_INTEGRATION=0",
 					"CC_ENABLE_BOX2D_INTEGRATION=1",
 				);
@@ -2690,7 +2780,6 @@
 					"-lxml2",
 					"-lz",
 					"-lsqlite3",
-					"-websockets",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "\"MissileDemo/libs\"";
@@ -2716,7 +2805,6 @@
 					"-lxml2",
 					"-lz",
 					"-lsqlite3",
-					"-websockets",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "\"MissileDemo/libs\"";

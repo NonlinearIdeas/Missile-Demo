@@ -1,9 +1,9 @@
 /********************************************************************
- * File   : Interpolator.cpp
+ * File   : Entity.cpp
  * Project: MissileDemo
  *
  ********************************************************************
- * Created on 10/6/13 By Nonlinear Ideas Inc.
+ * Created on 10/15/13 By Nonlinear Ideas Inc.
  * Copyright (c) 2013 Nonlinear Ideas Inc. All rights reserved.
  ********************************************************************
  * This software is provided 'as-is', without any express or implied
@@ -25,6 +25,5 @@
  */
 
 
-#include "Interpolator.h"
-
+#include "Entity.h"
 

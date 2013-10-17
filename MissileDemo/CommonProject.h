@@ -44,6 +44,8 @@ typedef b2Body Body;
 typedef b2Vec2 Vec2;
 typedef b2ContactListener ContactListener;
 typedef b2Fixture Fixture;
+typedef b2FixtureDef FixtureDef;
+typedef b2PolygonShape PolygonShape;
 typedef b2AABB AABB;
 typedef b2Joint Joint;
 typedef b2JointEdge JointEdge;

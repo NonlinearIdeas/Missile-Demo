@@ -118,6 +118,36 @@ public:
       return 3;
    }
 
+   template <typename Number>
+   static inline bool IsNearZero(Number value)
+   {
+      if(value < 0)
+         value = -value;
+      if(value >= 0 && value <= numeric_limits<Number>::epsilon())
+         return true;
+      return false;
+   }
+   
+   template<typename Number>
+   static inline Number NormalizedAngle(Number angleRads)
+   {
+      Number angle = angleRads / M_PI;
+      
+      while(angle > 2)
+         angle -= 2;
+      while(angle < -2)
+         angle += 2;
+      if(angle < -1)
+      {
+         angle += 2;
+      }
+      else if(angle > 1)
+      {
+         angle = -2 + angle;
+      }
+      return angle;
+   }
+
 };
 
 #endif /* defined(__Box2DTestBed__MathUtilities__) */

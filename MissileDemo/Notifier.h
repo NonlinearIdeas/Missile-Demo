@@ -145,5 +145,6 @@ public:
 
 };
 
+typedef Notifier::NOTIFIED_EVENT_TYPE_T NOTIFIED_EVENT_TYPE_T;
 
 #endif /* defined(__Box2DTestBed__Notifier__) */

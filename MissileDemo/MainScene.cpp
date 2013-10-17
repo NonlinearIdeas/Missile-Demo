@@ -25,21 +25,52 @@
  */
 
 #include "MainScene.h"
+#include "Box2DDebugDrawLayer.h"
+#include "GridLayer.h"
 #include "DebugLinesLayer.h"
 #include "DebugMenuLayer.h"
 #include "TapDragPinchInput.h"
 #include "Notifier.h"
+#include "Viewport.h"
+#include "Missile.h"
 
-MainScene::MainScene()
+MainScene::MainScene() :
+_missile(NULL)
 {
 }
 
 MainScene::~MainScene()
 {
+   delete _missile;
+}
+
+void MainScene::CreateMissile()
+{
+   Vec2 position(0,0);
+   _missile = new Missile(*_world,position);
+}
+
+void MainScene::CreatePhysics()
+{
+   // Set up the viewport
+   static const float32 worldSizeMeters = 100.0;
+   
+   // Initialize the Viewport
+   Viewport::Instance().Init(worldSizeMeters);
+   
+   _world = new b2World(Vec2(0.0,0.0));
+   // Do we want to let bodies sleep?
+   // No for now...makes the debug layer blink
+   // which is annoying.
+   _world->SetAllowSleeping(false);
+   _world->SetContinuousPhysics(true);
 }
 
 bool MainScene::init()
 {
+   
+   // Create physical world
+   CreatePhysics();
    
    // Add a color background.  This will make it easier on the eyes.
    //   addChild(CCLayerColor::create(ccc4(240, 240, 240, 255)));
@@ -50,8 +81,17 @@ bool MainScene::init()
    // Touch Input Layer
    addChild(TapDragPinchInput::create(this));
    
+   // Box2d Debug
+   addChild(Box2DDebugDrawLayer::create(_world));
+   
+   // Grid
+   addChild(GridLayer::create());
+   
    // Add the menu.
    CreateMenu();
+   
+   // Populate physical world
+   CreateMissile();
    
    return true;
 }
@@ -88,6 +128,9 @@ void MainScene::onEnterTransitionDidFinish()
    // on screen transition times.  This gets you out of the question
    // of when the scene deletion occurs.
    Notifier::Instance().Attach(this, Notifier::NE_DEBUG_BUTTON_PRESSED);
+   
+   // Schedule Updates
+   scheduleUpdate();
 }
 
 void MainScene::onExitTransitionDidStart()
@@ -97,6 +140,9 @@ void MainScene::onExitTransitionDidStart()
    // on screen transition times.  This gets you out of the question
    // of when the scene deletion occurs.
    Notifier::Instance().Detach(this);
+   
+   // Turn off updates
+   unscheduleUpdate();
 }
 
 // Handler for Notifier Events
@@ -112,6 +158,28 @@ void MainScene::Notify(Notifier::NOTIFIED_EVENT_TYPE_T eventType, const void* ev
          break;
    }
 }
+
+void MainScene::UpdateMissile()
+{
+   _missile->Update();
+}
+
+void MainScene::UpdatePhysics()
+{
+   const int velocityIterations = 8;
+   const int positionIterations = 1;
+   float32 fixedDT = SECONDS_PER_TICK;
+   // Instruct the world to perform a single step of simulation. It is
+   // generally best to keep the time step and iterations fixed.
+   _world->Step(fixedDT, velocityIterations, positionIterations);
+}
+
+void MainScene::update(float dt)
+{
+   UpdateMissile();
+   UpdatePhysics();
+}
+
 
 // Handler for Tap/Drag/Pinch Events
 void MainScene::TapDragPinchInputTap(const TOUCH_DATA_T& point)
@@ -135,12 +203,15 @@ void MainScene::TapDragPinchInputPinchEnd(const TOUCH_DATA_T& point0, const TOUC
 }
 void MainScene::TapDragPinchInputDragBegin(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
+   _missile->CommandTurnTowards(Viewport::Instance().Convert(point0.pos));
 }
 void MainScene::TapDragPinchInputDragContinue(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
+   _missile->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
 }
 void MainScene::TapDragPinchInputDragEnd(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
+   _missile->CommandIdle();
 }
 
 void MainScene::CreateMenu()

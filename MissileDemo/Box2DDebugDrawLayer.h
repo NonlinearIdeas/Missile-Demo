@@ -22,10 +22,10 @@ private:
    Box2dDebugDraw* _debugDraw;
    Box2DDebugDrawLayer();
 protected:
-   bool init(b2World* world, float32 worldSizeMeters);
+   bool init(b2World* world);
 
 public:
-   static Box2DDebugDrawLayer* create(b2World* world, float32 worldSizeMeters);
+   static Box2DDebugDrawLayer* create(b2World* world);
    virtual void draw();
    virtual ~Box2DDebugDrawLayer();
    

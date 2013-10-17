@@ -34,7 +34,7 @@
 #include "TapDragPinchInput.h"
 #include "Notifier.h"
 
-class LineSmoother;
+class Missile;
 
 class MainScene : public CCScene, public Notified, public TapDragPinchInputTarget
 {
@@ -42,7 +42,12 @@ private:
    // This class follows the "create"/"autorelease" pattern.
    // Private constructor.
    MainScene();
+
+   // Box2d Physics World
+   b2World* _world;
    
+   // The missile
+   Missile* _missile;
       
 protected:
    // This is protected so that derived classes can call it
@@ -51,9 +56,13 @@ protected:
    
 private:
    void CreateMenu();
+   void CreatePhysics();
+   void CreateMissile();
    void HandleMenuChoice(uint32 choice);
    void ToggleDebug();
    void Reset();
+   void UpdateMissile();
+   void UpdatePhysics();
 public:
    
    static MainScene* create();
@@ -64,6 +73,7 @@ public:
    virtual void onExit();
    virtual void onEnterTransitionDidFinish();
    virtual void onExitTransitionDidStart();
+   virtual void update(float dt);
    
    // Handler for Notifier Events
    virtual void Notify(Notifier::NOTIFIED_EVENT_TYPE_T eventType, const void* eventData);
