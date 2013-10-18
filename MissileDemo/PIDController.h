@@ -160,9 +160,8 @@ public:
    void SetMaxHistory(uint32 maxHistory) { _maxHistory = maxHistory; assert(_maxHistory >= MIN_SAMPLES); }
    uint32 GetMaxHistory() { return _maxHistory; }
    
-   void AddSample(double measured, double desired)
+   void AddSample(double error)
    {
-      double error =  desired - measured;
       _errors.push_back(error);
       while(_errors.size() > _maxHistory)
       {  // If we got too big, remove the history.

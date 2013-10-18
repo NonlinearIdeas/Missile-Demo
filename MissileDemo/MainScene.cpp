@@ -203,7 +203,8 @@ void MainScene::TapDragPinchInputPinchEnd(const TOUCH_DATA_T& point0, const TOUC
 }
 void MainScene::TapDragPinchInputDragBegin(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
-   _missile->CommandTurnTowards(Viewport::Instance().Convert(point0.pos));
+   //_missile->CommandTurnTowards(Viewport::Instance().Convert(point0.pos));
+   _missile->CommandSeek(Viewport::Instance().Convert(point0.pos));
 }
 void MainScene::TapDragPinchInputDragContinue(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {

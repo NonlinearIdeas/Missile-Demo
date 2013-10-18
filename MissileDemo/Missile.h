@@ -40,87 +40,168 @@ private:
    {
       ST_IDLE,
       ST_TURN_TOWARDS,
-      ST_ATTACKING,
+      ST_SEEK,
       ST_MAX
    } STATE_T;
    
    STATE_T _state;
    Vec2 _targetPos;
    float32 _maxAngularAcceleration;
-   float32 _maxAngularVelocity;
-   bool _limitAngularVelocity;
+   float32 _maxLinearAcceleration;
+   float32 _minSeekDistance;
+   // Create turning acceleration
    PIDController _turnController;
+   // Create linear acceleration
+   PIDController _thrustController;
    
-   void ApplyTurnTorque()
-   {
-      float32 angleBodyNorm = MathUtilities::NormalizedAngle(GetBody()->GetAngle());
-      Vec2 toTarget;
-      toTarget = _targetPos - GetBody()->GetWorldCenter();
-      float32 angleTargetNorm = MathUtilities::NormalizedAngle(atan2f(toTarget.y,toTarget.x));
-      Vec2 bodyPos = GetBody()->GetWorldCenter();
-      float32 angleBodyDegs = 180*angleBodyNorm;
-      float32 angleTargetDegs = 180*angleTargetNorm;
-      _turnController.AddSample(angleBodyNorm, angleTargetNorm);
-      
-      float32 angAcc = _turnController.GetLastOutput();
-      
-      // This is as much turn acceleration as this
-      // "motor" can generate.
-      if(angAcc > _maxAngularAcceleration)
-         angAcc = _maxAngularAcceleration;
-      if(angAcc < -_maxAngularAcceleration)
-         angAcc = -_maxAngularAcceleration;
-      
-      float32 torque = angAcc * GetBody()->GetInertia();
-      float32 angVel = CC_RADIANS_TO_DEGREES(GetBody()->GetAngularVelocity());
-      
-      CCLOG("Body: (%8.3f,%8.3f), Target: (%8.3f,%8.3f), ABody:%5.1f, ATarget:%5.1f, CDiff=%5.3f, angAcc=%5.3f, angVel=%5.1f d/s",
-            bodyPos.x,bodyPos.y,
-            _targetPos.x,_targetPos.y,
-            angleBodyDegs,
-            angleTargetDegs,
-            _turnController.GetLastError(),
-            angAcc,
-            angVel);
-      
-      GetBody()->ApplyTorque(torque);
-      
-      if(_limitAngularVelocity)
-      {
-         float32 angularVelocity = GetBody()->GetAngularVelocity();
-         if(angularVelocity > _maxAngularVelocity)
-            GetBody()->SetAngularVelocity(_maxAngularVelocity);
-         if(angularVelocity < -_maxAngularVelocity)
-            GetBody()->SetAngularVelocity(-_maxAngularVelocity);
-      }
-   }
-   
-   void EnterIdle()
-   {
-      
-   }
-   
-   void EnterTurnTowards()
+   void SetupTurnController()
    {
       GetBody()->SetAngularDamping(0);
-      GetBody()->SetLinearDamping(0);
       _turnController.ResetHistory();
       _turnController.SetKDerivative(5.0);
-      _turnController.SetKProportional(1.0);
+      _turnController.SetKProportional(0.5);
       _turnController.SetKIntegral(0.05);
       _turnController.SetKPlant(1.0);
-      ApplyTurnTorque();
    }
    
-   void ExecuteIdle()
+   void SetupThrustController()
+   {
+      GetBody()->SetLinearDamping(0);
+      _thrustController.ResetHistory();
+      _thrustController.SetKDerivative(5.0);
+      _thrustController.SetKProportional(0.5);
+      _thrustController.SetKIntegral(0.05);
+      _thrustController.SetKPlant(1.0);
+      
+   }
+   
+   void StopBody()
    {
       GetBody()->SetLinearVelocity(Vec2(0,0));
       GetBody()->SetAngularVelocity(0);
    }
    
+   static float32 AdjustAngle(float32 angleRads)
+   {
+      if(angleRads > M_PI)
+      {
+         while(angleRads > M_PI)
+         {
+            angleRads -= 2*M_PI;
+         }
+      }
+      else if(angleRads < -M_PI)
+      {
+         while(angleRads < -M_PI)
+         {
+            angleRads += 2*M_PI;
+         }
+      }
+      return angleRads;
+   }
+   
+   void ApplyTurnTorque()
+   {
+      Vec2 toTarget = _targetPos - GetBody()->GetPosition();
+      
+      if(toTarget.LengthSquared() < _minSeekDistance*_minSeekDistance)
+      {
+         GetBody()->SetAngularVelocity(0);
+      }
+      else
+      {
+         
+         float32 angleBodyRads = AdjustAngle(GetBody()->GetAngle());
+         float32 angleTargetRads = AdjustAngle(atan2f(toTarget.y, toTarget.x));
+         float32 angleError = AdjustAngle(angleBodyRads - angleTargetRads);
+         _turnController.AddSample(angleError);
+         
+         // Negative Feedback
+         float32 angAcc = -_turnController.GetLastOutput();
+         
+         // This is as much turn acceleration as this
+         // "motor" can generate.
+         if(angAcc > _maxAngularAcceleration)
+            angAcc = _maxAngularAcceleration;
+         if(angAcc < -_maxAngularAcceleration)
+            angAcc = -_maxAngularAcceleration;
+         
+         float32 torque = angAcc * GetBody()->GetInertia();
+         GetBody()->ApplyTorque(torque);
+      }
+   }
+   
+   void ApplyThrust()
+   {
+      // Get the distance to the target.
+      Vec2 toTarget = _targetPos - GetBody()->GetWorldCenter();
+      if(toTarget.LengthSquared() < _minSeekDistance*_minSeekDistance)
+      {
+         GetBody()->SetLinearVelocity(Vec2(0,0));
+      }
+      else
+      {
+         float32 dist = toTarget.Length();
+         
+         // Get the world vector (normalized) along the axis of the body.
+         Vec2 direction = GetBody()->GetWorldVector(Vec2(1.0,0.0));
+         Vec2 linVel = GetBody()->GetLinearVelocity();
+         float32 speed = linVel.Length();
+         GetBody()->SetLinearVelocity(speed*direction);
+         
+         // Add the sample to the PID controller
+         _thrustController.AddSample(dist);
+         
+         // Get an acceleration out of it.
+         float32 linAcc = _thrustController.GetLastOutput();
+         
+         // Limit It
+         if(linAcc > _maxLinearAcceleration)
+            linAcc = _maxLinearAcceleration;
+         if(linAcc < -_maxLinearAcceleration)
+            linAcc = -_maxLinearAcceleration;
+         
+         CCLOG("Seek Dist: %8.3f, linAcc: %8.3f",
+               dist,linAcc);
+         
+         // Thrust Calculation
+         float32 thrust = linAcc * GetBody()->GetMass();
+         
+         // Apply Thrust
+         GetBody()->ApplyForceToCenter(thrust*direction);
+      }
+   }
+
+   void EnterSeek()
+   {
+      SetupThrustController();
+      SetupTurnController();
+   }
+   
+   void EnterIdle()
+   {
+      StopBody();
+   }
+   
+   void EnterTurnTowards()
+   {
+      SetupTurnController();
+   }
+   
+   void ExecuteIdle()
+   {
+   }
+   
    void ExecuteTurnTowards()
    {
       ApplyTurnTorque();
+   }
+   
+   
+   void ExecuteSeek()
+   {
+      ApplyTurnTorque();
+      ApplyThrust();
    }
    
    void ExecuteState(STATE_T state)
@@ -132,6 +213,9 @@ private:
             break;
          case ST_TURN_TOWARDS:
             ExecuteTurnTowards();
+            break;
+         case ST_SEEK:
+            ExecuteSeek();
             break;
          default:
             assert(false);
@@ -148,6 +232,9 @@ private:
          case ST_TURN_TOWARDS:
             EnterTurnTowards();
             break;
+         case ST_SEEK:
+            EnterSeek();
+            break;
          default:
             assert(false);
       }
@@ -161,21 +248,23 @@ private:
    
 public:
    // Getters and Setters
-   bool GetLimitAngularVelocity() { return _limitAngularVelocity; }
-   void SetLimitAngularVelocity(bool limitAngularVelocity) { _limitAngularVelocity = limitAngularVelocity; }
-   float32 GetMaxAngularVelocity() { return _maxAngularVelocity; }
-   void SetMaxAngularVelocity(float32 maxAngularVelocity) { _maxAngularVelocity = maxAngularVelocity; }
+   
+   float32 GetMaxLinearAcceleration() { return _maxLinearAcceleration; }
+   void SetMaxLinearAcceleration(float32 maxLinearAcceleration) { _maxLinearAcceleration = maxLinearAcceleration; }
    
    float32 GetMaxAngularAcceleration() { return _maxAngularAcceleration; }
    void SetMaxAngularAcceleration(float32 maxAngularAcceleration) { _maxAngularAcceleration = maxAngularAcceleration; }
+   
+   float32 GetMinSeekDistance() { return _minSeekDistance; }
+   void SetMinSeekDistance(float32 minSeekDistance) { _minSeekDistance = minSeekDistance; }
    
    // Constructor
 	Missile(b2World& world,const Vec2& position) :
       Entity(Entity::ET_MISSILE,10),
       _state(ST_IDLE),
-      _limitAngularVelocity(false),
-      _maxAngularVelocity(M_PI/4),
-      _maxAngularAcceleration(10.0)
+      _maxAngularAcceleration(4*M_PI),
+      _maxLinearAcceleration(100.0),
+      _minSeekDistance(4.0)
    {
       // Create the body.
       b2BodyDef bodyDef;
@@ -219,8 +308,6 @@ public:
       vertices.push_back(Vec2(-4*VERT_SCALE,0*VERT_SCALE));
       polyShape.Set(&vertices[0],vertices.size());
       body->CreateFixture(&fixtureDef);
-      
-      // Manually setting the Maximum Angular Acceleration
    }
    
    
@@ -230,6 +317,12 @@ public:
    {
       _targetPos = position;
       ChangeState(ST_TURN_TOWARDS);
+   }
+   
+   void CommandSeek(const Vec2& position)
+   {
+      _targetPos = position;
+      ChangeState(ST_SEEK);
    }
    
    void SetTargetPosition(const Vec2& position)
