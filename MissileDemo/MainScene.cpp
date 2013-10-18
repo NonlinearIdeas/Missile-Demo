@@ -218,18 +218,24 @@ void MainScene::TapDragPinchInputDragEnd(const TOUCH_DATA_T& point0, const TOUCH
 void MainScene::CreateMenu()
 {
    vector<string> labels;
-   labels.push_back("Reset");
    labels.push_back("Debug");
+   labels.push_back("Zoom In");
+   labels.push_back("Normal View");
+   labels.push_back("Zoom Out");
    
-   DebugMenuLayer* layer = DebugMenuLayer::create(labels);
+   CCSize scrSize = CCDirector::sharedDirector()->getWinSize();
+   
+   DebugMenuLayer* layer = DebugMenuLayer::create(labels,ccp(scrSize.width*0.1,scrSize.height*0.75));
    layer->GetMenu()->setColor(ccc3(255, 255, 0));
    assert(layer != NULL);
    addChild(layer);
 }
 
-void MainScene::Reset()
+void MainScene::SetZoom(float scale)
 {
+   Viewport::Instance().SetScale(scale);
 }
+
 
 void MainScene::ToggleDebug()
 {
@@ -241,10 +247,16 @@ void MainScene::HandleMenuChoice(uint32 choice)
    switch(choice)
    {
       case 0:
-         Reset();
+         ToggleDebug();
          break;
       case 1:
-         ToggleDebug();
+         SetZoom(0.5);
+         break;
+      case 2:
+         SetZoom(1.0);
+         break;
+      case 3:
+         SetZoom(1.5);
          break;
       default:
          assert(false);

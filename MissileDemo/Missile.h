@@ -161,9 +161,6 @@ private:
          if(linAcc < -_maxLinearAcceleration)
             linAcc = -_maxLinearAcceleration;
          
-         CCLOG("Seek Dist: %8.3f, linAcc: %8.3f",
-               dist,linAcc);
-         
          // Thrust Calculation
          float32 thrust = linAcc * GetBody()->GetMass();
          
@@ -262,8 +259,8 @@ public:
 	Missile(b2World& world,const Vec2& position) :
       Entity(Entity::ET_MISSILE,10),
       _state(ST_IDLE),
-      _maxAngularAcceleration(4*M_PI),
-      _maxLinearAcceleration(100.0),
+      _maxAngularAcceleration(2*M_PI),
+      _maxLinearAcceleration(50.0),
       _minSeekDistance(4.0)
    {
       // Create the body.

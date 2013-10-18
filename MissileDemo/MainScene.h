@@ -60,7 +60,7 @@ private:
    void CreateMissile();
    void HandleMenuChoice(uint32 choice);
    void ToggleDebug();
-   void Reset();
+   void SetZoom(float zoom);
    void UpdateMissile();
    void UpdatePhysics();
 public:
