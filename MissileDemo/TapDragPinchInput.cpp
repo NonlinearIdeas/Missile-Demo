@@ -83,6 +83,23 @@ void TapDragPinchInput::DrawDebug()
          ld.start = ccp(_points[0].pos.x,_points[0].pos.y);
          ld.end = ccp(_points[1].pos.x,_points[1].pos.y);
          Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
+         
+         ld.start = ccp(_points[0].pos.x-10,_points[0].pos.y-10);
+         ld.end = ccp(_points[0].pos.x+10,_points[0].pos.y+10);
+         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
+         
+         ld.start = ccp(_points[0].pos.x+10,_points[0].pos.y-10);
+         ld.end = ccp(_points[0].pos.x-10,_points[0].pos.y+10);
+         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
+         
+         
+         ld.start = ccp(_points[1].pos.x-10,_points[1].pos.y-10);
+         ld.end = ccp(_points[1].pos.x+10,_points[1].pos.y+10);
+         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
+         
+         ld.start = ccp(_points[1].pos.x+10,_points[1].pos.y-10);
+         ld.end = ccp(_points[1].pos.x-10,_points[1].pos.y+10);
+         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
          break;
       default:
          assert(false);

@@ -48,7 +48,12 @@ private:
    
    // The missile
    Missile* _missile;
-      
+   
+   // Keep the last center point during a pinch.
+   Vec2 _viewportCenterOrg;
+   float32 _viewportScaleOrg;
+   TapDragPinchInput* _tapDragPinchInput;
+   
 protected:
    // This is protected so that derived classes can call it
    // in their create methods.
@@ -63,6 +68,8 @@ private:
    void SetZoom(float zoom);
    void UpdateMissile();
    void UpdatePhysics();
+   void PinchViewport(const CCPoint& p0Org,const CCPoint& p1Org,
+                      const CCPoint& p0,const CCPoint& p1);
 public:
    
    static MainScene* create();

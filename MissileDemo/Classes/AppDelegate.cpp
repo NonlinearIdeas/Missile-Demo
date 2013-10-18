@@ -35,6 +35,7 @@ bool AppDelegate::applicationDidFinishLaunching()
    // same pixel positions.
    CCEGLView::sharedOpenGLView()->setDesignResolutionSize(1024, 768, kResolutionNoBorder);
    
+    
    // turn on display FPS
    pDirector->setDisplayStats(true);
    

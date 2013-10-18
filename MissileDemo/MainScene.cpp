@@ -79,7 +79,8 @@ bool MainScene::init()
    addChild(DebugLinesLayer::create());
    
    // Touch Input Layer
-   addChild(TapDragPinchInput::create(this));
+   _tapDragPinchInput = TapDragPinchInput::create(this);
+   addChild(_tapDragPinchInput);
    
    // Box2d Debug
    addChild(Box2DDebugDrawLayer::create(_world));
@@ -180,6 +181,26 @@ void MainScene::update(float dt)
    UpdatePhysics();
 }
 
+void MainScene::PinchViewport(const CCPoint& p0Org,const CCPoint& p1Org,
+                              const CCPoint& p0,const CCPoint& p1)
+{
+   Viewport& vp = Viewport::Instance();
+   float32 distOrg = ccpDistance(p0Org, p1Org);
+   float32 distNew = ccpDistance(p0, p1);
+   
+   if(distOrg < 1)
+      distOrg = 1;
+   if(distNew < 1)
+      distNew = 1;
+   
+   float32 scaleAdjust = distNew/distOrg;
+   Vec2 centerOld = vp.Convert(ccpMidpoint(p0Org, p1Org));
+   Vec2 centerNew = vp.Convert(ccpMidpoint(p0, p1));
+   
+   vp.SetCenter(_viewportCenterOrg-centerNew+centerOld);
+   vp.SetScale(scaleAdjust*_viewportScaleOrg);
+}
+
 
 // Handler for Tap/Drag/Pinch Events
 void MainScene::TapDragPinchInputTap(const TOUCH_DATA_T& point)
@@ -191,27 +212,38 @@ void MainScene::TapDragPinchInputLongTap(const TOUCH_DATA_T& point)
 }
 void MainScene::TapDragPinchInputPinchBegin(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
-   
+   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
+   _tapDragPinchInput->DrawDebug();
+   _viewportCenterOrg = Viewport::Instance().GetCenterMeters();
+   _viewportScaleOrg = Viewport::Instance().GetScale();
+   PinchViewport(GetPinchPoint0().pos, GetPinchPoint1().pos, point0.pos, point1.pos);
 }
 void MainScene::TapDragPinchInputPinchContinue(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
-   
+   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
+   _tapDragPinchInput->DrawDebug();
+   PinchViewport(GetPinchPoint0().pos, GetPinchPoint1().pos, point0.pos, point1.pos);
 }
 void MainScene::TapDragPinchInputPinchEnd(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
-   
+   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
 }
 void MainScene::TapDragPinchInputDragBegin(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
+   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
+   _tapDragPinchInput->DrawDebug();
    //_missile->CommandTurnTowards(Viewport::Instance().Convert(point0.pos));
    _missile->CommandSeek(Viewport::Instance().Convert(point0.pos));
 }
 void MainScene::TapDragPinchInputDragContinue(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
+   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
+   _tapDragPinchInput->DrawDebug();
    _missile->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
 }
 void MainScene::TapDragPinchInputDragEnd(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
+   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
    _missile->CommandIdle();
 }
 
@@ -251,12 +283,15 @@ void MainScene::HandleMenuChoice(uint32 choice)
          break;
       case 1:
          SetZoom(0.5);
+         Viewport::Instance().SetCenter(Vec2(0,0));
          break;
       case 2:
          SetZoom(1.0);
+         Viewport::Instance().SetCenter(Vec2(0,0));
          break;
       case 3:
          SetZoom(1.5);
+         Viewport::Instance().SetCenter(Vec2(0,0));
          break;
       default:
          assert(false);

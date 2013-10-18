@@ -128,7 +128,7 @@ public:
       }
    }
    
-   static DebugLinesLayer* create(bool createVisible = false)
+   static DebugLinesLayer* create(bool createVisible = true)
    {
       DebugLinesLayer *pRet = new DebugLinesLayer();
       if (pRet && pRet->init())
