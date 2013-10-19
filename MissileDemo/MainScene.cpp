@@ -35,7 +35,8 @@
 #include "Missile.h"
 
 MainScene::MainScene() :
-_missile(NULL)
+_missile(NULL),
+_dragBehavior(DB_TRACK)
 {
 }
 
@@ -230,21 +231,69 @@ void MainScene::TapDragPinchInputPinchEnd(const TOUCH_DATA_T& point0, const TOUC
 }
 void MainScene::TapDragPinchInputDragBegin(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
-   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
-   _tapDragPinchInput->DrawDebug();
-   //_missile->CommandTurnTowards(Viewport::Instance().Convert(point0.pos));
-   _missile->CommandSeek(Viewport::Instance().Convert(point0.pos));
+   switch(_dragBehavior)
+   {
+      case DB_TRACK:
+         _missile->CommandTurnTowards(Viewport::Instance().Convert(point0.pos));
+         break;
+      case DB_SEEK:
+         _missile->CommandSeek(Viewport::Instance().Convert(point0.pos));
+         break;
+      case DB_PATH:
+      {
+         LINE_PIXELS_DATA ld;
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
+         _path.clear();
+         _path.push_back(Viewport::Instance().Convert(point0.pos));
+         _path.push_back(Viewport::Instance().Convert(point1.pos));
+         _missile->CommandIdle();
+         
+         ld.start = point0.pos;
+         ld.end = point1.pos;
+         _lastPoint = point1.pos;
+         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS,&ld);
+         
+      }
+         break;
+   }
 }
 void MainScene::TapDragPinchInputDragContinue(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
-   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
-   _tapDragPinchInput->DrawDebug();
-   _missile->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
+   switch(_dragBehavior)
+   {
+      case DB_TRACK:
+         _missile->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
+         break;
+      case DB_SEEK:
+         _missile->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
+         break;
+      case DB_PATH:
+      {
+         
+         LINE_PIXELS_DATA ld;
+         _path.push_back(Viewport::Instance().Convert(point1.pos));
+         ld.start = _lastPoint;
+         ld.end = point1.pos;
+         _lastPoint = point1.pos;
+         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS,&ld);
+      }
+         break;
+   }
 }
 void MainScene::TapDragPinchInputDragEnd(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
-   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
-   _missile->CommandIdle();
+   switch(_dragBehavior)
+   {
+      case DB_TRACK:
+         _missile->CommandIdle();
+         break;
+      case DB_SEEK:
+         _missile->CommandIdle();
+         break;
+      case DB_PATH:
+         _missile->CommandFollowPath(_path);
+         break;
+   }
 }
 
 void MainScene::CreateMenu()
@@ -254,6 +303,10 @@ void MainScene::CreateMenu()
    labels.push_back("Zoom In");
    labels.push_back("Normal View");
    labels.push_back("Zoom Out");
+   labels.push_back("Missile: Track");
+   labels.push_back("Missile: Seek");
+   labels.push_back("Missile: Path");
+   
    
    CCSize scrSize = CCDirector::sharedDirector()->getWinSize();
    
@@ -276,6 +329,7 @@ void MainScene::ToggleDebug()
 
 void MainScene::HandleMenuChoice(uint32 choice)
 {
+   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
    switch(choice)
    {
       case 0:
@@ -292,6 +346,15 @@ void MainScene::HandleMenuChoice(uint32 choice)
       case 3:
          SetZoom(1.5);
          Viewport::Instance().SetCenter(Vec2(0,0));
+         break;
+      case 4:
+         _dragBehavior = DB_TRACK;
+         break;
+      case 5:
+         _dragBehavior = DB_SEEK;
+         break;
+      case 6:
+         _dragBehavior = DB_PATH;
          break;
       default:
          assert(false);

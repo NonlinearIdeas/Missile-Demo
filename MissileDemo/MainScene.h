@@ -42,6 +42,16 @@ private:
    // This class follows the "create"/"autorelease" pattern.
    // Private constructor.
    MainScene();
+   
+   // The behaviors we can have the missile exhibit
+   typedef enum
+   {
+      DB_TRACK,
+      DB_SEEK,
+      DB_PATH,
+   } DRAG_BEHAVIOR;
+   
+   DRAG_BEHAVIOR _dragBehavior;
 
    // Box2d Physics World
    b2World* _world;
@@ -53,6 +63,8 @@ private:
    Vec2 _viewportCenterOrg;
    float32 _viewportScaleOrg;
    TapDragPinchInput* _tapDragPinchInput;
+   list<Vec2> _path;
+   CCPoint _lastPoint;
    
 protected:
    // This is protected so that derived classes can call it

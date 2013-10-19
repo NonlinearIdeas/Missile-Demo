@@ -32,6 +32,7 @@
 #include "Entity.h"
 #include "PIDController.h"
 #include "MathUtilities.h"
+#include "Notifier.h"
 
 class Missile : public Entity
 {
@@ -41,6 +42,7 @@ private:
       ST_IDLE,
       ST_TURN_TOWARDS,
       ST_SEEK,
+      ST_FOLLOW_PATH,
       ST_MAX
    } STATE_T;
    
@@ -49,6 +51,7 @@ private:
    float32 _maxAngularAcceleration;
    float32 _maxLinearAcceleration;
    float32 _minSeekDistance;
+   list<Vec2> _path;
    // Create turning acceleration
    PIDController _turnController;
    // Create linear acceleration
@@ -72,7 +75,6 @@ private:
       _thrustController.SetKProportional(0.5);
       _thrustController.SetKIntegral(0.05);
       _thrustController.SetKPlant(1.0);
-      
    }
    
    void StopBody()
@@ -100,73 +102,70 @@ private:
       return angleRads;
    }
    
-   void ApplyTurnTorque()
+   bool IsNearTarget()
    {
       Vec2 toTarget = _targetPos - GetBody()->GetPosition();
       
       if(toTarget.LengthSquared() < _minSeekDistance*_minSeekDistance)
       {
-         GetBody()->SetAngularVelocity(0);
+         return true;
       }
-      else
-      {
-         
-         float32 angleBodyRads = AdjustAngle(GetBody()->GetAngle());
-         float32 angleTargetRads = AdjustAngle(atan2f(toTarget.y, toTarget.x));
-         float32 angleError = AdjustAngle(angleBodyRads - angleTargetRads);
-         _turnController.AddSample(angleError);
-         
-         // Negative Feedback
-         float32 angAcc = -_turnController.GetLastOutput();
-         
-         // This is as much turn acceleration as this
-         // "motor" can generate.
-         if(angAcc > _maxAngularAcceleration)
-            angAcc = _maxAngularAcceleration;
-         if(angAcc < -_maxAngularAcceleration)
-            angAcc = -_maxAngularAcceleration;
-         
-         float32 torque = angAcc * GetBody()->GetInertia();
-         GetBody()->ApplyTorque(torque);
-      }
+      return false;
    }
    
+   void ApplyTurnTorque()
+   {
+      Vec2 toTarget = _targetPos - GetBody()->GetPosition();
+      
+      float32 angleBodyRads = AdjustAngle(GetBody()->GetAngle());
+      float32 angleTargetRads = AdjustAngle(atan2f(toTarget.y, toTarget.x));
+      float32 angleError = AdjustAngle(angleBodyRads - angleTargetRads);
+      _turnController.AddSample(angleError);
+      
+      // Negative Feedback
+      float32 angAcc = -_turnController.GetLastOutput();
+      
+      // This is as much turn acceleration as this
+      // "motor" can generate.
+      if(angAcc > _maxAngularAcceleration)
+         angAcc = _maxAngularAcceleration;
+      if(angAcc < -_maxAngularAcceleration)
+         angAcc = -_maxAngularAcceleration;
+      
+      float32 torque = angAcc * GetBody()->GetInertia();
+      GetBody()->ApplyTorque(torque);
+   }
+
    void ApplyThrust()
    {
       // Get the distance to the target.
       Vec2 toTarget = _targetPos - GetBody()->GetWorldCenter();
-      if(toTarget.LengthSquared() < _minSeekDistance*_minSeekDistance)
-      {
-         GetBody()->SetLinearVelocity(Vec2(0,0));
-      }
-      else
-      {
-         float32 dist = toTarget.Length();
-         
-         // Get the world vector (normalized) along the axis of the body.
-         Vec2 direction = GetBody()->GetWorldVector(Vec2(1.0,0.0));
-         Vec2 linVel = GetBody()->GetLinearVelocity();
-         float32 speed = linVel.Length();
-         GetBody()->SetLinearVelocity(speed*direction);
-         
-         // Add the sample to the PID controller
-         _thrustController.AddSample(dist);
-         
-         // Get an acceleration out of it.
-         float32 linAcc = _thrustController.GetLastOutput();
-         
-         // Limit It
-         if(linAcc > _maxLinearAcceleration)
-            linAcc = _maxLinearAcceleration;
-         if(linAcc < -_maxLinearAcceleration)
-            linAcc = -_maxLinearAcceleration;
-         
-         // Thrust Calculation
-         float32 thrust = linAcc * GetBody()->GetMass();
-         
-         // Apply Thrust
-         GetBody()->ApplyForceToCenter(thrust*direction);
-      }
+      float32 dist = toTarget.Length();
+      
+      // Get the world vector (normalized) along the axis of the body.
+      Vec2 direction = GetBody()->GetWorldVector(Vec2(1.0,0.0));
+      Vec2 linVel = GetBody()->GetLinearVelocity();
+      float32 speed = linVel.Length();
+      // Pile all the momentum in the direction the body is facing.
+      GetBody()->SetLinearVelocity(speed*direction);
+      
+      // Add the sample to the PID controller
+      _thrustController.AddSample(dist);
+      
+      // Get an acceleration out of it.
+      float32 linAcc = _thrustController.GetLastOutput();
+      
+      // Limit It
+      if(linAcc > _maxLinearAcceleration)
+         linAcc = _maxLinearAcceleration;
+      if(linAcc < -_maxLinearAcceleration)
+         linAcc = -_maxLinearAcceleration;
+      
+      // Thrust Calculation
+      float32 thrust = linAcc * GetBody()->GetMass();
+      
+      // Apply Thrust
+      GetBody()->ApplyForceToCenter(thrust*direction);
    }
 
    void EnterSeek()
@@ -175,9 +174,27 @@ private:
       SetupTurnController();
    }
    
+   void ExecuteSeek()
+   {
+      if(IsNearTarget())
+      {
+         StopBody();
+      }
+      else
+      {
+         ApplyTurnTorque();
+         ApplyThrust();
+      }
+   }
+   
+   
    void EnterIdle()
    {
       StopBody();
+   }
+   
+   void ExecuteIdle()
+   {
    }
    
    void EnterTurnTowards()
@@ -185,20 +202,49 @@ private:
       SetupTurnController();
    }
    
-   void ExecuteIdle()
-   {
-   }
-   
    void ExecuteTurnTowards()
    {
       ApplyTurnTorque();
    }
    
-   
-   void ExecuteSeek()
+   void UpdatePathTarget()
    {
-      ApplyTurnTorque();
-      ApplyThrust();
+      while(_path.size() > 0 && IsNearTarget())
+      {
+         _targetPos = *_path.begin();
+         _path.pop_front();
+      }
+   }
+   
+   void EnterFollowPath()
+   {
+      // If there are any points to follow,
+      // then pop the first as the target
+      // and follow it.  Otherwise, go idle.
+      UpdatePathTarget();
+      if(_path.size() > 0)
+      {
+         SetupThrustController();
+         SetupTurnController();
+      }
+      else
+      {
+         ChangeState(ST_IDLE);
+      }
+   }
+   
+   void ExecuteFollowPath()
+   {
+      UpdatePathTarget();
+      if(_path.size() > 0)
+      {
+         ApplyThrust();
+         ApplyTurnTorque();
+      }
+      else
+      {
+         ChangeState(ST_IDLE);
+      }
    }
    
    void ExecuteState(STATE_T state)
@@ -213,6 +259,9 @@ private:
             break;
          case ST_SEEK:
             ExecuteSeek();
+            break;
+         case ST_FOLLOW_PATH:
+            ExecuteFollowPath();
             break;
          default:
             assert(false);
@@ -231,6 +280,9 @@ private:
             break;
          case ST_SEEK:
             EnterSeek();
+            break;
+         case ST_FOLLOW_PATH:
+            EnterFollowPath();
             break;
          default:
             assert(false);
@@ -259,8 +311,8 @@ public:
 	Missile(b2World& world,const Vec2& position) :
       Entity(Entity::ET_MISSILE,10),
       _state(ST_IDLE),
-      _maxAngularAcceleration(2*M_PI),
-      _maxLinearAcceleration(50.0),
+      _maxAngularAcceleration(8*M_PI),
+      _maxLinearAcceleration(100.0),
       _minSeekDistance(4.0)
    {
       // Create the body.
@@ -310,6 +362,13 @@ public:
    
    // Commands - Use thse to change the state
    // of the missile.
+   void CommandFollowPath(const list<Vec2> path)
+   {
+      _path = path;
+      ChangeState(ST_FOLLOW_PATH);
+   }
+   
+   
    void CommandTurnTowards(const Vec2& position)
    {
       _targetPos = position;
