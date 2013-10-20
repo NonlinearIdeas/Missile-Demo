@@ -94,6 +94,28 @@ public:
       return accel;
    }
    
+   // Takes an angle greater than +/- M_PI and converts it back
+   // to +/- M_PI.  Useful in Box2D where angles continuously
+   // increase/decrease.
+   static inline float32 AdjustAngle(float32 angleRads)
+   {
+      if(angleRads > M_PI)
+      {
+         while(angleRads > M_PI)
+         {
+            angleRads -= 2*M_PI;
+         }
+      }
+      else if(angleRads < -M_PI)
+      {
+         while(angleRads < -M_PI)
+         {
+            angleRads += 2*M_PI;
+         }
+      }
+      return angleRads;
+   }
+   
    // Indicate which quadrant a point is in.
    // 0 ==> 0 < x < PI/2
    // 1 ==> PI/2 < x < PI

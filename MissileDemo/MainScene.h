@@ -35,6 +35,7 @@
 #include "Notifier.h"
 
 class Missile;
+class MovingEntity;
 
 class MainScene : public CCScene, public Notified, public TapDragPinchInputTarget
 {
@@ -56,8 +57,9 @@ private:
    // Box2d Physics World
    b2World* _world;
    
-   // The missile
-   Missile* _missile;
+   // The moving entity
+   MovingEntity* _entity;
+   //Missile* _entity;
    
    // Keep the last center point during a pinch.
    Vec2 _viewportCenterOrg;

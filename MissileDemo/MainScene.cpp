@@ -33,22 +33,24 @@
 #include "Notifier.h"
 #include "Viewport.h"
 #include "Missile.h"
+#include "MovingEntity.h"
 
 MainScene::MainScene() :
-_missile(NULL),
+_entity(NULL),
 _dragBehavior(DB_TRACK)
 {
 }
 
 MainScene::~MainScene()
 {
-   delete _missile;
+   delete _entity;
 }
 
 void MainScene::CreateMissile()
 {
    Vec2 position(0,0);
-   _missile = new Missile(*_world,position);
+   //_entity = new Missile(*_world,position);
+   _entity = new MovingEntity(*_world,position);
 }
 
 void MainScene::CreatePhysics()
@@ -163,7 +165,7 @@ void MainScene::Notify(Notifier::NOTIFIED_EVENT_TYPE_T eventType, const void* ev
 
 void MainScene::UpdateMissile()
 {
-   _missile->Update();
+   _entity->Update();
 }
 
 void MainScene::UpdatePhysics()
@@ -234,10 +236,10 @@ void MainScene::TapDragPinchInputDragBegin(const TOUCH_DATA_T& point0, const TOU
    switch(_dragBehavior)
    {
       case DB_TRACK:
-         _missile->CommandTurnTowards(Viewport::Instance().Convert(point0.pos));
+         _entity->CommandTurnTowards(Viewport::Instance().Convert(point0.pos));
          break;
       case DB_SEEK:
-         _missile->CommandSeek(Viewport::Instance().Convert(point0.pos));
+         _entity->CommandSeek(Viewport::Instance().Convert(point0.pos));
          break;
       case DB_PATH:
       {
@@ -246,7 +248,7 @@ void MainScene::TapDragPinchInputDragBegin(const TOUCH_DATA_T& point0, const TOU
          _path.clear();
          _path.push_back(Viewport::Instance().Convert(point0.pos));
          _path.push_back(Viewport::Instance().Convert(point1.pos));
-         _missile->CommandIdle();
+         _entity->CommandIdle();
          
          ld.start = point0.pos;
          ld.end = point1.pos;
@@ -262,10 +264,10 @@ void MainScene::TapDragPinchInputDragContinue(const TOUCH_DATA_T& point0, const 
    switch(_dragBehavior)
    {
       case DB_TRACK:
-         _missile->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
+         _entity->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
          break;
       case DB_SEEK:
-         _missile->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
+         _entity->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
          break;
       case DB_PATH:
       {
@@ -285,13 +287,13 @@ void MainScene::TapDragPinchInputDragEnd(const TOUCH_DATA_T& point0, const TOUCH
    switch(_dragBehavior)
    {
       case DB_TRACK:
-         _missile->CommandIdle();
+         _entity->CommandIdle();
          break;
       case DB_SEEK:
-         _missile->CommandIdle();
+         _entity->CommandIdle();
          break;
       case DB_PATH:
-         _missile->CommandFollowPath(_path);
+         _entity->CommandFollowPath(_path);
          break;
    }
 }

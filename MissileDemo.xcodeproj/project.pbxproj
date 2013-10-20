@@ -10,6 +10,7 @@
 		1A4A4EC81801FC6400347E01 /* Box2DDebugDrawLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A4EC41801FC6400347E01 /* Box2DDebugDrawLayer.cpp */; };
 		1A4A4EC91801FC6400347E01 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A4EC61801FC6400347E01 /* Viewport.cpp */; };
 		1A4A4ECC1801FCCD00347E01 /* Box2DDebugDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A4ECA1801FCCD00347E01 /* Box2DDebugDraw.cpp */; };
+		1A66A91D18142623002F3C51 /* MovingEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A66A91B18142623002F3C51 /* MovingEntity.cpp */; };
 		1A92B7CF1801F65A00F434EE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A92B7CE1801F65A00F434EE /* QuartzCore.framework */; };
 		1A92B7D11801F65A00F434EE /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A92B7D01801F65A00F434EE /* OpenGLES.framework */; };
 		1A92B7D31801F65A00F434EE /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A92B7D21801F65A00F434EE /* OpenAL.framework */; };
@@ -320,6 +321,8 @@
 		1A4A4EC71801FC6400347E01 /* Viewport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Viewport.h; sourceTree = "<group>"; };
 		1A4A4ECA1801FCCD00347E01 /* Box2DDebugDraw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2DDebugDraw.cpp; sourceTree = "<group>"; };
 		1A4A4ECB1801FCCD00347E01 /* Box2DDebugDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DDebugDraw.h; sourceTree = "<group>"; };
+		1A66A91B18142623002F3C51 /* MovingEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovingEntity.cpp; sourceTree = "<group>"; };
+		1A66A91C18142623002F3C51 /* MovingEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingEntity.h; sourceTree = "<group>"; };
 		1A92B7CB1801F65A00F434EE /* MissileDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MissileDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A92B7CE1801F65A00F434EE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1A92B7D01801F65A00F434EE /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -2289,6 +2292,8 @@
 				1A92BBB81801F85F00F434EE /* MathUtilities.h */,
 				1AC94046180D5CC700734EFD /* Missile.cpp */,
 				1AC94047180D5CC700734EFD /* Missile.h */,
+				1A66A91B18142623002F3C51 /* MovingEntity.cpp */,
+				1A66A91C18142623002F3C51 /* MovingEntity.h */,
 				1A92BBB91801F85F00F434EE /* Notifier.cpp */,
 				1A92BBBA1801F85F00F434EE /* Notifier.h */,
 				1AC94040180D551700734EFD /* PIDController.cpp */,
@@ -2498,6 +2503,7 @@
 				1A92BABE1801F65F00F434EE /* WebSocket.cpp in Sources */,
 				1A92B8451801F65B00F434EE /* CCArray.cpp in Sources */,
 				1A92B9C81801F65E00F434EE /* CCTextureAtlas.cpp in Sources */,
+				1A66A91D18142623002F3C51 /* MovingEntity.cpp in Sources */,
 				1A92B8C21801F65C00F434EE /* CCLayer.cpp in Sources */,
 				1A92BACC1801F65F00F434EE /* AnimationState.cpp in Sources */,
 				1A92B81C1801F65B00F434EE /* CCActionManager.cpp in Sources */,

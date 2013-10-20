@@ -1,39 +1,40 @@
 /********************************************************************
- * File   : Missile.h
+ * File   : MovingEntity.h
  * Project: MissileDemo
  *
  ********************************************************************
- * Created on 10/15/13 By Nonlinear Ideas Inc.
+ * Created on 10/20/13 By Nonlinear Ideas Inc.
  * Copyright (c) 2013 Nonlinear Ideas Inc. All rights reserved.
  ********************************************************************
  * This software is provided 'as-is', without any express or implied
- * warranty.  In no event will the authors be held liable for any
+ * warranty.  In no event will the authors be held liable for any 
  * damages arising from the use of this software.
  *
- * Permission is granted to anyone to use this software for any
- * purpose, including commercial applications, and to alter it and
+ * Permission is granted to anyone to use this software for any 
+ * purpose, including commercial applications, and to alter it and 
  * redistribute it freely, subject to the following restrictions:
  *
- * 1. The origin of this software must not be misrepresented; you must
- *    not claim that you wrote the original software. If you use this
- *    software in a product, an acknowledgment in the product
+ * 1. The origin of this software must not be misrepresented; you must 
+ *    not claim that you wrote the original software. If you use this 
+ *    software in a product, an acknowledgment in the product 
  *    documentation would be appreciated but is not required.
- * 2. Altered source versions must be plainly marked as such, and
+ * 2. Altered source versions must be plainly marked as such, and 
  *    must not be misrepresented as being the original software.
- * 3. This notice may not be removed or altered from any source
- *    distribution.
+ * 3. This notice may not be removed or altered from any source 
+ *    distribution. 
  */
 
-#ifndef __MissileDemo__Missile__
-#define __MissileDemo__Missile__
+#ifndef __MissileDemo__MovingEntity__
+#define __MissileDemo__MovingEntity__
 
 #include "CommonSTL.h"
 #include "CommonProject.h"
-#include "Entity.h"
 #include "PIDController.h"
 #include "MathUtilities.h"
+#include "Entity.h"
 
-class Missile : public Entity
+
+class MovingEntity : public Entity
 {
 private:
    typedef enum
@@ -53,8 +54,9 @@ private:
    list<Vec2> _path;
    // Create turning acceleration
    PIDController _turnController;
-   // Create linear acceleration
-   PIDController _thrustController;
+   // PID Controllers for x/y
+   PIDController _thrustX;
+   PIDController _thrustY;
    
    void SetupTurnController()
    {
@@ -66,14 +68,20 @@ private:
       _turnController.SetKPlant(1.0);
    }
    
-   void SetupThrustController()
+   void SetupThrustControllers()
    {
       GetBody()->SetLinearDamping(0);
-      _thrustController.ResetHistory();
-      _thrustController.SetKDerivative(5.0);
-      _thrustController.SetKProportional(0.5);
-      _thrustController.SetKIntegral(0.05);
-      _thrustController.SetKPlant(1.0);
+      _thrustX.ResetHistory();
+      _thrustX.SetKDerivative(5.0);
+      _thrustX.SetKProportional(0.5);
+      _thrustX.SetKIntegral(0.05);
+      _thrustX.SetKPlant(1.0);
+      
+      _thrustY.ResetHistory();
+      _thrustY.SetKDerivative(5.0);
+      _thrustY.SetKProportional(0.5);
+      _thrustY.SetKIntegral(0.05);
+      _thrustY.SetKPlant(1.0);
    }
    
    void StopBody()
@@ -116,43 +124,44 @@ private:
       float32 torque = angAcc * GetBody()->GetInertia();
       GetBody()->ApplyTorque(torque);
    }
-
+   
    void ApplyThrust()
    {
       // Get the distance to the target.
       Vec2 toTarget = _targetPos - GetBody()->GetWorldCenter();
-      float32 dist = toTarget.Length();
       
       // Get the world vector (normalized) along the axis of the body.
       Vec2 direction = GetBody()->GetWorldVector(Vec2(1.0,0.0));
       Vec2 linVel = GetBody()->GetLinearVelocity();
       float32 speed = linVel.Length();
       CCLOG("Missile Speed = %8.3f m/s",speed);
-      // Pile all the momentum in the direction the body is facing.
-      GetBody()->SetLinearVelocity(speed*direction);
       
       // Add the sample to the PID controller
-      _thrustController.AddSample(dist);
+      _thrustY.AddSample(toTarget.y);
+      _thrustX.AddSample(toTarget.x);
       
       // Get an acceleration out of it.
-      float32 linAcc = _thrustController.GetLastOutput();
-      
+      float32 linAccY = _thrustY.GetLastOutput();
+      float32 linAccX = _thrustX.GetLastOutput();
       // Limit It
-      if(linAcc > _maxLinearAcceleration)
-         linAcc = _maxLinearAcceleration;
-      if(linAcc < -_maxLinearAcceleration)
-         linAcc = -_maxLinearAcceleration;
-      
+      if(linAccY > _maxLinearAcceleration)
+         linAccY = _maxLinearAcceleration;
+      if(linAccY < -_maxLinearAcceleration)
+         linAccY = -_maxLinearAcceleration;
+      if(linAccX > _maxLinearAcceleration)
+         linAccX = _maxLinearAcceleration;
+      if(linAccX < -_maxLinearAcceleration)
+         linAccX = -_maxLinearAcceleration;
       // Thrust Calculation
-      float32 thrust = linAcc * GetBody()->GetMass();
+      Vec2 thrust = GetBody()->GetMass()*Vec2(linAccX,linAccY);
       
       // Apply Thrust
-      GetBody()->ApplyForceToCenter(thrust*direction);
+      GetBody()->ApplyForceToCenter(thrust);
    }
-
+   
    void EnterSeek()
    {
-      SetupThrustController();
+      SetupThrustControllers();
       SetupTurnController();
    }
    
@@ -206,7 +215,7 @@ private:
       UpdatePathTarget();
       if(_path.size() > 0)
       {
-         SetupThrustController();
+         SetupThrustControllers();
          SetupTurnController();
       }
       else
@@ -290,12 +299,12 @@ public:
    void SetMinSeekDistance(float32 minSeekDistance) { _minSeekDistance = minSeekDistance; }
    
    // Constructor
-	Missile(b2World& world,const Vec2& position) :
-      Entity(Entity::ET_MISSILE,10),
-      _state(ST_IDLE),
-      _maxAngularAcceleration(8*M_PI),
-      _maxLinearAcceleration(100.0),
-      _minSeekDistance(8.0)
+	MovingEntity(b2World& world,const Vec2& position) :
+   Entity(Entity::ET_MISSILE,10),
+   _state(ST_IDLE),
+   _maxAngularAcceleration(2*M_PI),
+   _maxLinearAcceleration(100.0),
+   _minSeekDistance(10.0)
    {
       // Create the body.
       b2BodyDef bodyDef;
@@ -308,36 +317,14 @@ public:
       
       // Now attach fixtures to the body.
       FixtureDef fixtureDef;
-      PolygonShape polyShape;
-      vector<Vec2> vertices;
+      b2CircleShape circleShape;
       
-      const float32 VERT_SCALE = .5;
-      fixtureDef.shape = &polyShape;
+      const float32 VERT_SCALE = 2.0;
+      circleShape.m_radius = 0.5*VERT_SCALE;
+      fixtureDef.shape = &circleShape;
       fixtureDef.density = 1.0;
       fixtureDef.friction = 1.0;
       fixtureDef.isSensor = false;
-      
-      // Main body
-      vertices.clear();
-      vertices.push_back(Vec2(-4*VERT_SCALE,2*VERT_SCALE));
-      vertices.push_back(Vec2(-4*VERT_SCALE,-2*VERT_SCALE));
-      vertices.push_back(Vec2(6*VERT_SCALE,-2*VERT_SCALE));
-      vertices.push_back(Vec2(6*VERT_SCALE,2*VERT_SCALE));
-      polyShape.Set(&vertices[0],vertices.size());
-      body->CreateFixture(&fixtureDef);
-      // Nose Cone
-      vertices.clear();
-      vertices.push_back(Vec2(6*VERT_SCALE,2*VERT_SCALE));
-      vertices.push_back(Vec2(6*VERT_SCALE,-2*VERT_SCALE));
-      vertices.push_back(Vec2(10*VERT_SCALE,0*VERT_SCALE));
-      polyShape.Set(&vertices[0],vertices.size());
-      body->CreateFixture(&fixtureDef);
-      // Tail Flare
-      vertices.clear();
-      vertices.push_back(Vec2(-5*VERT_SCALE,1*VERT_SCALE));
-      vertices.push_back(Vec2(-5*VERT_SCALE,-1*VERT_SCALE));
-      vertices.push_back(Vec2(-4*VERT_SCALE,0*VERT_SCALE));
-      polyShape.Set(&vertices[0],vertices.size());
       body->CreateFixture(&fixtureDef);
    }
    
@@ -382,4 +369,4 @@ protected:
 private:
 };
 
-#endif /* defined(__MissileDemo__Missile__) */
+#endif /* defined(__MissileDemo__MovingEntity__) */

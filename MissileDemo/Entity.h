@@ -24,8 +24,8 @@
  *    distribution. 
  */
 
-#ifndef __MissileDemo__Entity__
-#define __MissileDemo__Entity__
+#ifndef __Entity__
+#define __Entity__
 
 #include "CommonSTL.h"
 #include "CommonProject.h"
@@ -131,4 +131,4 @@ public:
 };
 
 
-#endif /* defined(__MissileDemo__Entity__) */
+#endif /* defined(__Entity__) */
