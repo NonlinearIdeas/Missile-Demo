@@ -49,8 +49,8 @@ MainScene::~MainScene()
 void MainScene::CreateMissile()
 {
    Vec2 position(0,0);
-   //_entity = new Missile(*_world,position);
-   _entity = new MovingEntity(*_world,position);
+   _entity = new Missile(*_world,position);
+   //_entity = new MovingEntity(*_world,position);
 }
 
 void MainScene::CreatePhysics()

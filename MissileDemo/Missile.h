@@ -50,6 +50,7 @@ private:
    float32 _maxAngularAcceleration;
    float32 _maxLinearAcceleration;
    float32 _minSeekDistance;
+   float32 _maxSpeed;
    list<Vec2> _path;
    // Create turning acceleration
    PIDController _turnController;
@@ -61,8 +62,8 @@ private:
       GetBody()->SetAngularDamping(0);
       _turnController.ResetHistory();
       _turnController.SetKDerivative(5.0);
-      _turnController.SetKProportional(2.0);
-      _turnController.SetKIntegral(0.1);
+      _turnController.SetKProportional(1.0);
+      _turnController.SetKIntegral(0.05);
       _turnController.SetKPlant(1.0);
    }
    
@@ -99,6 +100,11 @@ private:
       Vec2 toTarget = _targetPos - GetBody()->GetPosition();
       
       float32 angleBodyRads = MathUtilities::AdjustAngle(GetBody()->GetAngle());
+      if(GetBody()->GetLinearVelocity().LengthSquared() > 0)
+      {  // Body is moving
+         Vec2 vel = GetBody()->GetLinearVelocity();
+         angleBodyRads = MathUtilities::AdjustAngle(atan2f(vel.y,vel.x));
+      }
       float32 angleTargetRads = MathUtilities::AdjustAngle(atan2f(toTarget.y, toTarget.x));
       float32 angleError = MathUtilities::AdjustAngle(angleBodyRads - angleTargetRads);
       _turnController.AddSample(angleError);
@@ -127,6 +133,8 @@ private:
       Vec2 direction = GetBody()->GetWorldVector(Vec2(1.0,0.0));
       Vec2 linVel = GetBody()->GetLinearVelocity();
       float32 speed = linVel.Length();
+      if(speed >= _maxSpeed)
+         speed = _maxSpeed;
       CCLOG("Missile Speed = %8.3f m/s",speed);
       // Pile all the momentum in the direction the body is facing.
       GetBody()->SetLinearVelocity(speed*direction);
@@ -136,6 +144,7 @@ private:
       
       // Get an acceleration out of it.
       float32 linAcc = _thrustController.GetLastOutput();
+      linAcc = _maxLinearAcceleration;
       
       // Limit It
       if(linAcc > _maxLinearAcceleration)
@@ -293,9 +302,10 @@ public:
 	Missile(b2World& world,const Vec2& position) :
       Entity(Entity::ET_MISSILE,10),
       _state(ST_IDLE),
-      _maxAngularAcceleration(8*M_PI),
-      _maxLinearAcceleration(100.0),
-      _minSeekDistance(8.0)
+      _maxAngularAcceleration(80*M_PI),
+      _maxLinearAcceleration(200),
+      _maxSpeed(20),
+      _minSeekDistance(4.0)
    {
       // Create the body.
       b2BodyDef bodyDef;
