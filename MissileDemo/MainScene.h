@@ -58,8 +58,8 @@ private:
    b2World* _world;
    
    // The moving entity
-   //MovingEntity* _entity;
-   Missile* _entity;
+   MovingEntity* _entity;
+   //Missile* _entity;
    
    // Keep the last center point during a pinch.
    Vec2 _viewportCenterOrg;

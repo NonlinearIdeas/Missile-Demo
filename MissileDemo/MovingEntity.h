@@ -50,13 +50,11 @@ private:
    Vec2 _targetPos;
    float32 _maxAngularAcceleration;
    float32 _maxLinearAcceleration;
+   float32 _maxSpeed;
    float32 _minSeekDistance;
    list<Vec2> _path;
    // Create turning acceleration
    PIDController _turnController;
-   // PID Controllers for x/y
-   PIDController _thrustX;
-   PIDController _thrustY;
    
    void SetupTurnController()
    {
@@ -68,21 +66,6 @@ private:
       _turnController.SetKPlant(1.0);
    }
    
-   void SetupThrustControllers()
-   {
-      GetBody()->SetLinearDamping(0);
-      _thrustX.ResetHistory();
-      _thrustX.SetKDerivative(5.0);
-      _thrustX.SetKProportional(0.5);
-      _thrustX.SetKIntegral(0.05);
-      _thrustX.SetKPlant(1.0);
-      
-      _thrustY.ResetHistory();
-      _thrustY.SetKDerivative(5.0);
-      _thrustY.SetKProportional(0.5);
-      _thrustY.SetKIntegral(0.05);
-      _thrustY.SetKPlant(1.0);
-   }
    
    void StopBody()
    {
@@ -129,39 +112,16 @@ private:
    {
       // Get the distance to the target.
       Vec2 toTarget = _targetPos - GetBody()->GetWorldCenter();
-      
-      // Get the world vector (normalized) along the axis of the body.
-      Vec2 direction = GetBody()->GetWorldVector(Vec2(1.0,0.0));
-      Vec2 linVel = GetBody()->GetLinearVelocity();
-      float32 speed = linVel.Length();
-      CCLOG("Missile Speed = %8.3f m/s",speed);
-      
-      // Add the sample to the PID controller
-      _thrustY.AddSample(toTarget.y);
-      _thrustX.AddSample(toTarget.x);
-      
-      // Get an acceleration out of it.
-      float32 linAccY = _thrustY.GetLastOutput();
-      float32 linAccX = _thrustX.GetLastOutput();
-      // Limit It
-      if(linAccY > _maxLinearAcceleration)
-         linAccY = _maxLinearAcceleration;
-      if(linAccY < -_maxLinearAcceleration)
-         linAccY = -_maxLinearAcceleration;
-      if(linAccX > _maxLinearAcceleration)
-         linAccX = _maxLinearAcceleration;
-      if(linAccX < -_maxLinearAcceleration)
-         linAccX = -_maxLinearAcceleration;
-      // Thrust Calculation
-      Vec2 thrust = GetBody()->GetMass()*Vec2(linAccX,linAccY);
-      
-      // Apply Thrust
-      GetBody()->ApplyForceToCenter(thrust);
+      toTarget.Normalize();
+      Vec2 desiredVel = _maxSpeed*toTarget;
+      Vec2 currentVel = GetBody()->GetLinearVelocity();
+      Vec2 thrust = desiredVel - currentVel;
+      GetBody()->ApplyForceToCenter(_maxLinearAcceleration*thrust);
+      CCLOG("Speed = %f",currentVel.Length());
    }
    
    void EnterSeek()
    {
-      SetupThrustControllers();
       SetupTurnController();
    }
    
@@ -215,7 +175,6 @@ private:
       UpdatePathTarget();
       if(_path.size() > 0)
       {
-         SetupThrustControllers();
          SetupTurnController();
       }
       else
@@ -302,9 +261,10 @@ public:
 	MovingEntity(b2World& world,const Vec2& position) :
    Entity(Entity::ET_MISSILE,10),
    _state(ST_IDLE),
-   _maxAngularAcceleration(2*M_PI),
+   _maxAngularAcceleration(80*M_PI),
    _maxLinearAcceleration(100.0),
-   _minSeekDistance(10.0)
+   _maxSpeed(20),
+   _minSeekDistance(2.0)
    {
       // Create the body.
       b2BodyDef bodyDef;
@@ -317,14 +277,50 @@ public:
       
       // Now attach fixtures to the body.
       FixtureDef fixtureDef;
-      b2CircleShape circleShape;
+      PolygonShape polyShape;
+      vector<Vec2> vertices;
       
-      const float32 VERT_SCALE = 2.0;
-      circleShape.m_radius = 0.5*VERT_SCALE;
-      fixtureDef.shape = &circleShape;
+      const float32 VERT_SCALE = .5;
+      fixtureDef.shape = &polyShape;
       fixtureDef.density = 1.0;
       fixtureDef.friction = 1.0;
       fixtureDef.isSensor = false;
+      
+      // Main body
+      vertices.clear();
+      vertices.push_back(Vec2(-4*VERT_SCALE,2*VERT_SCALE));
+      vertices.push_back(Vec2(-4*VERT_SCALE,-2*VERT_SCALE));
+      vertices.push_back(Vec2(6*VERT_SCALE,-2*VERT_SCALE));
+      vertices.push_back(Vec2(6*VERT_SCALE,2*VERT_SCALE));
+      polyShape.Set(&vertices[0],vertices.size());
+      body->CreateFixture(&fixtureDef);
+      // Nose Cone
+      vertices.clear();
+      vertices.push_back(Vec2(6*VERT_SCALE,2*VERT_SCALE));
+      vertices.push_back(Vec2(6*VERT_SCALE,-2*VERT_SCALE));
+      vertices.push_back(Vec2(10*VERT_SCALE,0*VERT_SCALE));
+      polyShape.Set(&vertices[0],vertices.size());
+      body->CreateFixture(&fixtureDef);
+      // Tail Flare
+      vertices.clear();
+      vertices.push_back(Vec2(-5*VERT_SCALE,1*VERT_SCALE));
+      vertices.push_back(Vec2(-5*VERT_SCALE,-1*VERT_SCALE));
+      vertices.push_back(Vec2(-4*VERT_SCALE,0*VERT_SCALE));
+      polyShape.Set(&vertices[0],vertices.size());
+      body->CreateFixture(&fixtureDef);
+      // Side Jet
+      vertices.clear();
+      vertices.push_back(Vec2(0*VERT_SCALE,3*VERT_SCALE));
+      vertices.push_back(Vec2(1*VERT_SCALE,2*VERT_SCALE));
+      vertices.push_back(Vec2(2*VERT_SCALE,3*VERT_SCALE));
+      polyShape.Set(&vertices[0],vertices.size());
+      body->CreateFixture(&fixtureDef);
+      // Side Jet
+      vertices.clear();
+      vertices.push_back(Vec2(2*VERT_SCALE,-3*VERT_SCALE));
+      vertices.push_back(Vec2(1*VERT_SCALE,-2*VERT_SCALE));
+      vertices.push_back(Vec2(0*VERT_SCALE,-3*VERT_SCALE));
+      polyShape.Set(&vertices[0],vertices.size());
       body->CreateFixture(&fixtureDef);
    }
    

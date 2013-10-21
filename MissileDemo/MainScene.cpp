@@ -49,8 +49,8 @@ MainScene::~MainScene()
 void MainScene::CreateMissile()
 {
    Vec2 position(0,0);
-   _entity = new Missile(*_world,position);
-   //_entity = new MovingEntity(*_world,position);
+   //_entity = new Missile(*_world,position);
+   _entity = new MovingEntity(*_world,position);
 }
 
 void MainScene::CreatePhysics()
@@ -246,6 +246,7 @@ void MainScene::TapDragPinchInputDragBegin(const TOUCH_DATA_T& point0, const TOU
          LINE_PIXELS_DATA ld;
          Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          _path.clear();
+         _path.push_back(_entity->GetBody()->GetPosition());
          _path.push_back(Viewport::Instance().Convert(point0.pos));
          _path.push_back(Viewport::Instance().Convert(point1.pos));
          _entity->CommandIdle();
