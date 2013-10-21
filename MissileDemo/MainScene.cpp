@@ -37,7 +37,8 @@
 
 MainScene::MainScene() :
 _entity(NULL),
-_dragBehavior(DB_TRACK)
+_dragBehavior(DB_TRACK),
+_meType(MT_MISSILE)
 {
 }
 
@@ -46,11 +47,25 @@ MainScene::~MainScene()
    delete _entity;
 }
 
-void MainScene::CreateMissile()
+void MainScene::CreateEntity()
 {
    Vec2 position(0,0);
-   //_entity = new Missile(*_world,position);
-   _entity = new MovingEntity(*_world,position);
+   if(_entity != NULL)
+   {
+      delete _entity;
+   }
+   switch(_meType)
+   {
+      case MT_MISSILE:
+         _entity = new Missile(*_world,position);
+         break;
+      case MT_MOVING_ENTITY:
+         _entity = new MovingEntity(*_world,position);
+         break;
+      case MT_MAX:
+         assert(false);
+         break;
+   }
 }
 
 void MainScene::CreatePhysics()
@@ -95,7 +110,7 @@ bool MainScene::init()
    CreateMenu();
    
    // Populate physical world
-   CreateMissile();
+   CreateEntity();
    
    return true;
 }
@@ -246,7 +261,6 @@ void MainScene::TapDragPinchInputDragBegin(const TOUCH_DATA_T& point0, const TOU
          LINE_PIXELS_DATA ld;
          Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          _path.clear();
-         _path.push_back(_entity->GetBody()->GetPosition());
          _path.push_back(Viewport::Instance().Convert(point0.pos));
          _path.push_back(Viewport::Instance().Convert(point1.pos));
          _entity->CommandIdle();
@@ -306,14 +320,15 @@ void MainScene::CreateMenu()
    labels.push_back("Zoom In");
    labels.push_back("Normal View");
    labels.push_back("Zoom Out");
-   labels.push_back("Missile: Track");
-   labels.push_back("Missile: Seek");
-   labels.push_back("Missile: Path");
+   labels.push_back("Cmd: Track");
+   labels.push_back("Cmd: Seek");
+   labels.push_back("Cmd: Path");
+   labels.push_back("Next Type");
    
    
    CCSize scrSize = CCDirector::sharedDirector()->getWinSize();
    
-   DebugMenuLayer* layer = DebugMenuLayer::create(labels,ccp(scrSize.width*0.1,scrSize.height*0.75));
+   DebugMenuLayer* layer = DebugMenuLayer::create(labels,ccp(scrSize.width*0.1,scrSize.height*0.5));
    layer->GetMenu()->setColor(ccc3(255, 255, 0));
    assert(layer != NULL);
    addChild(layer);
@@ -358,6 +373,12 @@ void MainScene::HandleMenuChoice(uint32 choice)
          break;
       case 6:
          _dragBehavior = DB_PATH;
+         break;
+      case 7:
+         _meType++;
+         if(_meType == MT_MAX)
+            _meType = MT_MIN;
+         CreateEntity();
          break;
       default:
          assert(false);

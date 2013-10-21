@@ -34,8 +34,7 @@
 #include "TapDragPinchInput.h"
 #include "Notifier.h"
 
-class Missile;
-class MovingEntity;
+class MovingEntityIFace;
 
 class MainScene : public CCScene, public Notified, public TapDragPinchInputTarget
 {
@@ -57,8 +56,19 @@ private:
    // Box2d Physics World
    b2World* _world;
    
+   typedef enum
+   {
+      MT_MIN = 0,
+      MT_MOVING_ENTITY = MT_MIN,
+      MT_MISSILE,
+      MT_MAX,
+   } MOVING_ENTITY_TYPE_T;
+   
+   MOVING_ENTITY_TYPE_T _meType;
+   
+   
    // The moving entity
-   MovingEntity* _entity;
+   MovingEntityIFace* _entity;
    //Missile* _entity;
    
    // Keep the last center point during a pinch.
@@ -76,7 +86,7 @@ protected:
 private:
    void CreateMenu();
    void CreatePhysics();
-   void CreateMissile();
+   void CreateEntity();
    void HandleMenuChoice(uint32 choice);
    void ToggleDebug();
    void SetZoom(float zoom);

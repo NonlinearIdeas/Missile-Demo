@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A34B08E1815375900EA4B6C /* MovingEntityIFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A34B08C1815375900EA4B6C /* MovingEntityIFace.cpp */; };
 		1A4A4EC81801FC6400347E01 /* Box2DDebugDrawLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A4EC41801FC6400347E01 /* Box2DDebugDrawLayer.cpp */; };
 		1A4A4EC91801FC6400347E01 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A4EC61801FC6400347E01 /* Viewport.cpp */; };
 		1A4A4ECC1801FCCD00347E01 /* Box2DDebugDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A4A4ECA1801FCCD00347E01 /* Box2DDebugDraw.cpp */; };
@@ -315,6 +316,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A34B08C1815375900EA4B6C /* MovingEntityIFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MovingEntityIFace.cpp; sourceTree = "<group>"; };
+		1A34B08D1815375900EA4B6C /* MovingEntityIFace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingEntityIFace.h; sourceTree = "<group>"; };
 		1A4A4EC41801FC6400347E01 /* Box2DDebugDrawLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2DDebugDrawLayer.cpp; sourceTree = "<group>"; };
 		1A4A4EC51801FC6400347E01 /* Box2DDebugDrawLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DDebugDrawLayer.h; sourceTree = "<group>"; };
 		1A4A4EC61801FC6400347E01 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
@@ -2294,6 +2297,8 @@
 				1AC94047180D5CC700734EFD /* Missile.h */,
 				1A66A91B18142623002F3C51 /* MovingEntity.cpp */,
 				1A66A91C18142623002F3C51 /* MovingEntity.h */,
+				1A34B08C1815375900EA4B6C /* MovingEntityIFace.cpp */,
+				1A34B08D1815375900EA4B6C /* MovingEntityIFace.h */,
 				1A92BBB91801F85F00F434EE /* Notifier.cpp */,
 				1A92BBBA1801F85F00F434EE /* Notifier.h */,
 				1AC94040180D551700734EFD /* PIDController.cpp */,
@@ -2633,6 +2638,7 @@
 				1A92BB8C1801F66000F434EE /* b2RopeJoint.cpp in Sources */,
 				1A92B8611801F65B00F434EE /* CCString.cpp in Sources */,
 				1A92BAC51801F65F00F434EE /* CCPhysicsSprite.cpp in Sources */,
+				1A34B08E1815375900EA4B6C /* MovingEntityIFace.cpp in Sources */,
 				1A92B7FA1801F65B00F434EE /* AppController.mm in Sources */,
 				1A92BB771801F66000F434EE /* b2FrictionJoint.cpp in Sources */,
 				1A92BB7D1801F66000F434EE /* b2Joint.cpp in Sources */,
