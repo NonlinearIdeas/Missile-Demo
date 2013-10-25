@@ -308,6 +308,9 @@
 		1A92BBC31801F85F00F434EE /* Notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBB91801F85F00F434EE /* Notifier.cpp */; };
 		1A92BBC41801F85F00F434EE /* Stopwatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBBB1801F85F00F434EE /* Stopwatch.cpp */; };
 		1A92BBC51801F85F00F434EE /* TapDragPinchInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A92BBBD1801F85F00F434EE /* TapDragPinchInput.cpp */; };
+		1AC5F6A1181A86C400EDB45A /* Arial_32_Green.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 1AC5F69F181A86C400EDB45A /* Arial_32_Green.fnt */; };
+		1AC5F6A2181A86C400EDB45A /* Arial_32_Green.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC5F6A0181A86C400EDB45A /* Arial_32_Green.png */; };
+		1AC5F6A5181A89F800EDB45A /* DebugMessageLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F6A3181A89F800EDB45A /* DebugMessageLayer.cpp */; };
 		1AC94042180D551700734EFD /* PIDController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC94040180D551700734EFD /* PIDController.cpp */; };
 		1AC94045180D5C1E00734EFD /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC94043180D5C1E00734EFD /* Entity.cpp */; };
 		1AC94048180D5CC700734EFD /* Missile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC94046180D5CC700734EFD /* Missile.cpp */; };
@@ -964,6 +967,10 @@
 		1A92BBBD1801F85F00F434EE /* TapDragPinchInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TapDragPinchInput.cpp; sourceTree = "<group>"; };
 		1A92BBBE1801F85F00F434EE /* TapDragPinchInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapDragPinchInput.h; sourceTree = "<group>"; };
 		1A92BBC61801F94D00F434EE /* SingletonTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingletonTemplate.h; sourceTree = "<group>"; };
+		1AC5F69F181A86C400EDB45A /* Arial_32_Green.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Arial_32_Green.fnt; sourceTree = "<group>"; };
+		1AC5F6A0181A86C400EDB45A /* Arial_32_Green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arial_32_Green.png; sourceTree = "<group>"; };
+		1AC5F6A3181A89F800EDB45A /* DebugMessageLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugMessageLayer.cpp; sourceTree = "<group>"; };
+		1AC5F6A4181A89F800EDB45A /* DebugMessageLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugMessageLayer.h; sourceTree = "<group>"; };
 		1AC94040180D551700734EFD /* PIDController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PIDController.cpp; sourceTree = "<group>"; };
 		1AC94041180D551700734EFD /* PIDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIDController.h; sourceTree = "<group>"; };
 		1AC94043180D5C1E00734EFD /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Entity.cpp; sourceTree = "<group>"; };
@@ -1072,6 +1079,8 @@
 		1A92B7DF1801F65A00F434EE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1AC5F69F181A86C400EDB45A /* Arial_32_Green.fnt */,
+				1AC5F6A0181A86C400EDB45A /* Arial_32_Green.png */,
 				1A92B7E01801F65A00F434EE /* CloseNormal.png */,
 				1A92B7E21801F65A00F434EE /* CloseSelected.png */,
 				1A92B7E41801F65A00F434EE /* Default.png */,
@@ -2283,6 +2292,8 @@
 				1A92BBB21801F85F00F434EE /* DebugLinesLayer.h */,
 				1A92BBB31801F85F00F434EE /* DebugMenuLayer.cpp */,
 				1A92BBB41801F85F00F434EE /* DebugMenuLayer.h */,
+				1AC5F6A3181A89F800EDB45A /* DebugMessageLayer.cpp */,
+				1AC5F6A4181A89F800EDB45A /* DebugMessageLayer.h */,
 				1AC94043180D5C1E00734EFD /* Entity.cpp */,
 				1AC94044180D5C1E00734EFD /* Entity.h */,
 				1ADEBDC8180E0CE000BEDCAD /* GridLayer.cpp */,
@@ -2400,12 +2411,14 @@
 			files = (
 				1A92B7F11801F65A00F434EE /* Icon.png in Resources */,
 				1A92B8941801F65B00F434EE /* ChangeLog in Resources */,
+				1AC5F6A2181A86C400EDB45A /* Arial_32_Green.png in Resources */,
 				1A92B7E11801F65A00F434EE /* CloseNormal.png in Resources */,
 				1A92B7ED1801F65A00F434EE /* Icon-Small.png in Resources */,
 				1A92B7E91801F65A00F434EE /* Icon-72.png in Resources */,
 				1A92B7E71801F65A00F434EE /* HelloWorld.png in Resources */,
 				1A92B7EB1801F65A00F434EE /* Icon-Small-50.png in Resources */,
 				1A92B7F51801F65A00F434EE /* iTunesArtwork in Resources */,
+				1AC5F6A1181A86C400EDB45A /* Arial_32_Green.fnt in Resources */,
 				1A92B7EF1801F65A00F434EE /* Icon-Small@2x.png in Resources */,
 				1A92B7E51801F65A00F434EE /* Default.png in Resources */,
 				1A92B7E31801F65A00F434EE /* CloseSelected.png in Resources */,
@@ -2585,6 +2598,7 @@
 				1A92BBC51801F85F00F434EE /* TapDragPinchInput.cpp in Sources */,
 				1A92B90C1801F65C00F434EE /* CCAccelerometer.mm in Sources */,
 				1A92BA831801F65F00F434EE /* CCControlStepper.cpp in Sources */,
+				1AC5F6A5181A89F800EDB45A /* DebugMessageLayer.cpp in Sources */,
 				1A92B9511801F65D00F434EE /* CCGLProgram.cpp in Sources */,
 				1A92B8281801F65B00F434EE /* CCActionTween.cpp in Sources */,
 				1A92BA501801F65F00F434EE /* CCParticleSystemQuadLoader.cpp in Sources */,

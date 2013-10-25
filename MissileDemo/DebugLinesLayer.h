@@ -54,7 +54,7 @@ private:
       
       Notifier::Instance().Attach(this, Notifier::NE_RESET_DRAW_CYCLE);
       Notifier::Instance().Attach(this, Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS);
-      Notifier::Instance().Attach(this, Notifier::NE_DEBUG_LINES_TOGGLE_VISIBILITY);
+      Notifier::Instance().Attach(this, Notifier::NE_DEBUG_TOGGLE_VISIBILITY);
       
       return true;
    }
@@ -119,7 +119,7 @@ public:
          case Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS:
             AddLine(*((LINE_PIXELS_DATA_T*)eventData));
             break;
-         case Notifier::NE_DEBUG_LINES_TOGGLE_VISIBILITY:
+         case Notifier::NE_DEBUG_TOGGLE_VISIBILITY:
             setVisible(!isVisible());
             break;
          default:

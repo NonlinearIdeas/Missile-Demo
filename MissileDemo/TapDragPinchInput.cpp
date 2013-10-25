@@ -63,6 +63,7 @@ void TapDragPinchInput::DrawDebug()
    LINE_PIXELS_DATA ld;
    
    ld.color = ccc4f(0.4f, 0.75f, 0.1f, 0.90f);
+   ld.markerRadius = 25;
    
    switch(_state)
    {
@@ -71,34 +72,23 @@ void TapDragPinchInput::DrawDebug()
          break;
       case DPT_FINGER_DOWN:
          // Draw two lines as a cross where the finger is down.
-         ld.start = ccp(_points[0].pos.x-50,_points[0].pos.y-50);
-         ld.end = ccp(_points[0].pos.x+50,_points[0].pos.y+50);
-         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
-         ld.start = ccp(_points[0].pos.x+50,_points[0].pos.y-50);
-         ld.end = ccp(_points[0].pos.x-50,_points[0].pos.y+50);
+         ld.start = ccp(_points[0].pos.x,_points[0].pos.y);
+         ld.end = ld.start;
          Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
          break;
       case DPT_DRAG:
       case DPT_PINCH:
          ld.start = ccp(_points[0].pos.x,_points[0].pos.y);
+         ld.end = ld.start;
+         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
+         
+         ld.start = ccp(_points[1].pos.x,_points[1].pos.y);
+         ld.end = ld.start;
+         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
+         
+         ld.markerRadius = 0.0;
+         ld.start = ccp(_points[0].pos.x,_points[0].pos.y);
          ld.end = ccp(_points[1].pos.x,_points[1].pos.y);
-         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
-         
-         ld.start = ccp(_points[0].pos.x-10,_points[0].pos.y-10);
-         ld.end = ccp(_points[0].pos.x+10,_points[0].pos.y+10);
-         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
-         
-         ld.start = ccp(_points[0].pos.x+10,_points[0].pos.y-10);
-         ld.end = ccp(_points[0].pos.x-10,_points[0].pos.y+10);
-         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
-         
-         
-         ld.start = ccp(_points[1].pos.x-10,_points[1].pos.y-10);
-         ld.end = ccp(_points[1].pos.x+10,_points[1].pos.y+10);
-         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
-         
-         ld.start = ccp(_points[1].pos.x+10,_points[1].pos.y-10);
-         ld.end = ccp(_points[1].pos.x-10,_points[1].pos.y+10);
          Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
          break;
       default:

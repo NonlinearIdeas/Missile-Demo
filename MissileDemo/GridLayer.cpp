@@ -79,7 +79,7 @@ bool GridLayer::init(uint32 subdivisions)
 #endif
    
    Notifier::Instance().Attach(this, Notifier::NE_VIEWPORT_CHANGED);
-   Notifier::Instance().Attach(this, Notifier::NE_DEBUG_LINES_TOGGLE_VISIBILITY);
+   Notifier::Instance().Attach(this, Notifier::NE_DEBUG_TOGGLE_VISIBILITY);
    return true;
 }
 
@@ -115,7 +115,7 @@ void GridLayer::Notify(NOTIFIED_EVENT_TYPE_T eventType, const void* eventData)
          UpdateGridLabels();
 #endif
          break;
-      case Notifier::NE_DEBUG_LINES_TOGGLE_VISIBILITY:
+      case Notifier::NE_DEBUG_TOGGLE_VISIBILITY:
          setVisible(!isVisible());
          break;
       default:
@@ -151,7 +151,7 @@ void GridLayer::DrawGridLines()
    // Draw the lines
    for(int idx = 0; idx < _pixelLines.size(); idx++)
    {
-      ccDrawColor4B(128, 128, 200, 128);
+      ccDrawColor4B(20, 20, 240, 128);
       ccDrawCircle(_pixelLines[idx].start, 4, 0, 16, false, 1.0, 1.0);
       ccDrawCircle(_pixelLines[idx].end, 4, 0, 16, false, 1.0, 1.0);
       ccDrawLine(ccp(_pixelLines[idx].start.x,_pixelLines[idx].start.y),
@@ -202,7 +202,7 @@ void GridLayer::InitGridLabels()
          label->setPosition(pixel);
          label->setAnchorPoint(ccp(0.5,0.5));
          label->setScale(0.5);
-         label->setColor(ccc3(128, 20, 128));
+         label->setColor(ccc3(0, 0, 10));
          addChild(label);
       }
    }

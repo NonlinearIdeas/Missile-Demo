@@ -141,10 +141,14 @@ public:
    
    void SetScale(float32 scale)
    {
-      assert(scale > 0.0);
-      assert(scale <= 2.0);
-      _vScale = scale;
-      CalculateViewport();
+      const float32 SCALE_MIN = 0.1;
+      const float32 SCALE_MAX = 2.0;
+      if(scale > SCALE_MIN &&
+         scale <= SCALE_MAX)
+      {
+         _vScale = scale;
+         CalculateViewport();
+      }
    }
    
    /* Check if a position is within the range of the view.

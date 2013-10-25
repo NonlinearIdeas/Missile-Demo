@@ -34,6 +34,8 @@
 #include "Viewport.h"
 #include "Missile.h"
 #include "MovingEntity.h"
+#include "DebugMessageLayer.h"
+
 
 MainScene::MainScene() :
 _entity(NULL),
@@ -91,7 +93,7 @@ bool MainScene::init()
    CreatePhysics();
    
    // Add a color background.  This will make it easier on the eyes.
-   //   addChild(CCLayerColor::create(ccc4(240, 240, 240, 255)));
+   addChild(CCLayerColor::create(ccc4(200, 200, 200, 255)));
    
    // Adding the debug lines so that we can draw the path followed.
    addChild(DebugLinesLayer::create());
@@ -105,6 +107,9 @@ bool MainScene::init()
    
    // Grid
    addChild(GridLayer::create());
+   
+   // Debug Message
+   addChild(DebugMessageLayer::create());
    
    // Add the menu.
    CreateMenu();
@@ -228,6 +233,9 @@ void MainScene::TapDragPinchInputTap(const TOUCH_DATA_T& point)
 void MainScene::TapDragPinchInputLongTap(const TOUCH_DATA_T& point)
 {
 }
+
+
+
 void MainScene::TapDragPinchInputPinchBegin(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
    Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
@@ -248,6 +256,8 @@ void MainScene::TapDragPinchInputPinchEnd(const TOUCH_DATA_T& point0, const TOUC
 }
 void MainScene::TapDragPinchInputDragBegin(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
+   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
+   _tapDragPinchInput->DrawDebug();
    switch(_dragBehavior)
    {
       case DB_TRACK:
@@ -279,9 +289,13 @@ void MainScene::TapDragPinchInputDragContinue(const TOUCH_DATA_T& point0, const 
    switch(_dragBehavior)
    {
       case DB_TRACK:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
+         _tapDragPinchInput->DrawDebug();
          _entity->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
          break;
       case DB_SEEK:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
+         _tapDragPinchInput->DrawDebug();
          _entity->SetTargetPosition(Viewport::Instance().Convert(point1.pos));
          break;
       case DB_PATH:
@@ -302,9 +316,11 @@ void MainScene::TapDragPinchInputDragEnd(const TOUCH_DATA_T& point0, const TOUCH
    switch(_dragBehavior)
    {
       case DB_TRACK:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          _entity->CommandIdle();
          break;
       case DB_SEEK:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          _entity->CommandIdle();
          break;
       case DB_PATH:
@@ -329,7 +345,7 @@ void MainScene::CreateMenu()
    CCSize scrSize = CCDirector::sharedDirector()->getWinSize();
    
    DebugMenuLayer* layer = DebugMenuLayer::create(labels,ccp(scrSize.width*0.1,scrSize.height*0.5));
-   layer->GetMenu()->setColor(ccc3(255, 255, 0));
+   layer->GetMenu()->setColor(ccc3(20, 20, 20));
    assert(layer != NULL);
    addChild(layer);
 }
@@ -342,7 +358,7 @@ void MainScene::SetZoom(float scale)
 
 void MainScene::ToggleDebug()
 {
-   Notifier::Instance().Notify(Notifier::NE_DEBUG_LINES_TOGGLE_VISIBILITY);
+   Notifier::Instance().Notify(Notifier::NE_DEBUG_TOGGLE_VISIBILITY);
 }
 
 void MainScene::HandleMenuChoice(uint32 choice)

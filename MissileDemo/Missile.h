@@ -33,6 +33,7 @@
 #include "PIDController.h"
 #include "MathUtilities.h"
 #include "MovingEntityIFace.h"
+#include "Notifier.h"
 
 class Missile : public Entity, public MovingEntityIFace
 {
@@ -105,6 +106,15 @@ private:
       float32 torque = angAcc * GetBody()->GetInertia();
       GetBody()->ApplyTorque(torque);
    }
+   
+   void NotifySpeed()
+   {
+      Vec2 linVel = GetBody()->GetLinearVelocity();
+      float32 speed = linVel.Length();
+      char buffer[64];
+      sprintf(buffer,"Speed = %8.3f m/s",speed);
+      Notifier::Instance().Notify(Notifier::NE_DEBUG_MESSAGE,buffer);
+   }
 
    void ApplyThrust()
    {
@@ -114,7 +124,6 @@ private:
       float32 speed = linVel.Length();
       if(speed >= GetMaxSpeed())
          speed = GetMaxSpeed();
-      CCLOG("Missile Speed = %8.3f m/s",speed);
       // Pile all the momentum in the direction the body is facing.
       // The missile "cannot" slip sideways.
       GetBody()->SetLinearVelocity(speed*direction);
@@ -359,6 +368,7 @@ public:
    virtual void Update()
    {
       ExecuteState(_state);
+      NotifySpeed();
    }
    
 protected:
