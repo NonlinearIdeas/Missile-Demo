@@ -123,7 +123,6 @@ private:
       Vec2 currentVel = GetBody()->GetLinearVelocity();
       Vec2 thrust = desiredVel - currentVel;
       GetBody()->ApplyForceToCenter(GetMaxLinearAcceleration()*thrust);
-      CCLOG("Speed = %f",currentVel.Length());
    }
    
    void EnterSeek()

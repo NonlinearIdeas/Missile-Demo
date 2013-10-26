@@ -238,6 +238,7 @@ void MainScene::TapDragPinchInputLongTap(const TOUCH_DATA_T& point)
 
 void MainScene::TapDragPinchInputPinchBegin(const TOUCH_DATA_T& point0, const TOUCH_DATA_T& point1)
 {
+   _entity->CommandIdle();
    Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
    _tapDragPinchInput->DrawDebug();
    _viewportCenterOrg = Viewport::Instance().GetCenterMeters();

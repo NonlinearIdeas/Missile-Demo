@@ -62,7 +62,7 @@ void TapDragPinchInput::DrawDebug()
 {
    LINE_PIXELS_DATA ld;
    
-   ld.color = ccc4f(0.4f, 0.75f, 0.1f, 0.90f);
+   ld.color = ccc4f(0.2f, 0.2f, 0.1f, 0.90f);
    ld.markerRadius = 25;
    
    switch(_state)

@@ -15,6 +15,8 @@
 #define TAG_LABEL_SCALE (1000)
 #define TAG_LABEL_GRID_BASE (2000)
 
+#define GRID_SCALE_FACTOR (0.5)
+
 void GridLayer::CalculateWorldLines()
 {
    LINE_METERS_DATA_T lmd;
@@ -130,6 +132,7 @@ void GridLayer::UpdateGridLabels()
    float32 dx = (worldSize.width)/_subdivisions;
    float32 dy = (worldSize.height)/_subdivisions;
    uint32 tag = TAG_LABEL_GRID_BASE;
+   float32 scale = viewport.GetScale();
 
    for(int idx = 0; idx <= _subdivisions; idx++)
    {
@@ -141,6 +144,7 @@ void GridLayer::UpdateGridLabels()
          CCNode* label = (CCNode*)getChildByTag(tag);
          assert(label != NULL);
          label->setPosition(pixel);
+         label->setScale(GRID_SCALE_FACTOR/scale);
       }
    }
    
@@ -187,6 +191,7 @@ void GridLayer::InitGridLabels()
    float32 dx = (worldSize.width)/_subdivisions;
    float32 dy = (worldSize.height)/_subdivisions;
    uint32 tag = TAG_LABEL_GRID_BASE;
+   float32 scale = viewport.GetScale();
 
    for(int idx = 0; idx <= _subdivisions; idx++)
    {
@@ -201,8 +206,8 @@ void GridLayer::InitGridLabels()
          label->setTag(tag);
          label->setPosition(pixel);
          label->setAnchorPoint(ccp(0.5,0.5));
-         label->setScale(0.5);
          label->setColor(ccc3(0, 0, 10));
+         label->setScale(GRID_SCALE_FACTOR/scale);
          addChild(label);
       }
    }
