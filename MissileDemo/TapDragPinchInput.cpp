@@ -62,7 +62,7 @@ void TapDragPinchInput::DrawDebug()
 {
    LINE_PIXELS_DATA ld;
    
-   ld.color = ccc4f(0.2f, 0.2f, 0.1f, 0.90f);
+   ld.color = ccc4f(0.9f, 0.2f, 0.1f, 0.90f);
    ld.markerRadius = 25;
    
    switch(_state)
@@ -77,6 +77,10 @@ void TapDragPinchInput::DrawDebug()
          Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
          break;
       case DPT_DRAG:
+         ld.start = ccp(_points[1].pos.x,_points[1].pos.y);
+         ld.end = ld.start;
+         Notifier::Instance().Notify(Notifier::NE_DEBUG_LINE_DRAW_ADD_LINE_PIXELS, &ld);
+         break;
       case DPT_PINCH:
          ld.start = ccp(_points[0].pos.x,_points[0].pos.y);
          ld.end = ld.start;
