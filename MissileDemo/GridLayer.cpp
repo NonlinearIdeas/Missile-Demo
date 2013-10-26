@@ -10,7 +10,7 @@
 #include "Viewport.h"
 
 #define DRAW_GRID
-#define DRAW_GRID_LABELS
+//#define DRAW_GRID_LABELS
 //#define DRAW_SCALE_LABEL
 #define TAG_LABEL_SCALE (1000)
 #define TAG_LABEL_GRID_BASE (2000)
@@ -155,9 +155,9 @@ void GridLayer::DrawGridLines()
    // Draw the lines
    for(int idx = 0; idx < _pixelLines.size(); idx++)
    {
-      ccDrawColor4B(20, 20, 240, 128);
-      ccDrawCircle(_pixelLines[idx].start, 4, 0, 16, false, 1.0, 1.0);
-      ccDrawCircle(_pixelLines[idx].end, 4, 0, 16, false, 1.0, 1.0);
+      ccDrawColor4B(20, 20, 128, 90);
+      ccDrawCircle(_pixelLines[idx].start, 2, 0, 16, false, 1.0, 1.0);
+      ccDrawCircle(_pixelLines[idx].end, 2, 0, 16, false, 1.0, 1.0);
       ccDrawLine(ccp(_pixelLines[idx].start.x,_pixelLines[idx].start.y),
                  ccp(_pixelLines[idx].end.x,_pixelLines[idx].end.y) );
    }   

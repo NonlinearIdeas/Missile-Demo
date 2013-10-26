@@ -97,5 +97,6 @@ void DebugMessageLayer::InitLabel()
    CCLabelBMFont* label = CCLabelBMFont::create(_lastMessage.c_str(), "Arial_32_Green.fnt",600,kCCTextAlignmentCenter);
    label->setPosition(ccp(0.5f*scrSize.width,0.95f*scrSize.height));
    label->setTag(TAG_LABEL);
+   label->setOpacity(128);
    addChild(label);
 }

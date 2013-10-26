@@ -35,6 +35,7 @@
 #include "Missile.h"
 #include "MovingEntity.h"
 #include "DebugMessageLayer.h"
+#include "SunBackgroundLayer.h"
 
 
 MainScene::MainScene() :
@@ -93,7 +94,9 @@ bool MainScene::init()
    CreatePhysics();
    
    // Add a color background.  This will make it easier on the eyes.
-   addChild(CCLayerColor::create(ccc4(200, 200, 200, 255)));
+   //addChild(CCLayerColor::create(ccc4(200, 200, 200, 255)));
+   
+   addChild(SunBackgroundLayer::create());
    
    // Adding the debug lines so that we can draw the path followed.
    addChild(DebugLinesLayer::create());
@@ -346,7 +349,7 @@ void MainScene::CreateMenu()
    CCSize scrSize = CCDirector::sharedDirector()->getWinSize();
    
    DebugMenuLayer* layer = DebugMenuLayer::create(labels,ccp(scrSize.width*0.1,scrSize.height*0.5));
-   layer->GetMenu()->setColor(ccc3(20, 20, 20));
+   layer->GetMenu()->setColor(ccc3(90, 90, 90));
    assert(layer != NULL);
    addChild(layer);
 }
@@ -364,31 +367,37 @@ void MainScene::ToggleDebug()
 
 void MainScene::HandleMenuChoice(uint32 choice)
 {
-   Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
    switch(choice)
    {
       case 0:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          ToggleDebug();
          break;
       case 1:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          SetZoom(0.5);
          Viewport::Instance().SetCenter(Vec2(0,0));
          break;
       case 2:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          SetZoom(1.0);
          Viewport::Instance().SetCenter(Vec2(0,0));
          break;
       case 3:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          SetZoom(1.5);
          Viewport::Instance().SetCenter(Vec2(0,0));
          break;
       case 4:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          _dragBehavior = DB_TRACK;
          break;
       case 5:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          _dragBehavior = DB_SEEK;
          break;
       case 6:
+         Notifier::Instance().Notify(Notifier::NE_RESET_DRAW_CYCLE);
          _dragBehavior = DB_PATH;
          break;
       case 7:
@@ -396,6 +405,18 @@ void MainScene::HandleMenuChoice(uint32 choice)
          if(_meType == MT_MAX)
             _meType = MT_MIN;
          CreateEntity();
+         // If the entity was already following a path,
+         // put this one on the path as well.
+         switch(_dragBehavior)
+      {
+         case DB_PATH:
+            _entity->CommandFollowPath(_path);
+            break;
+         case DB_SEEK:
+            break;
+         case DB_TRACK:
+            break;
+      }
          break;
       default:
          assert(false);

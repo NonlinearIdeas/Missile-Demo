@@ -315,6 +315,9 @@
 		1AC94045180D5C1E00734EFD /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC94043180D5C1E00734EFD /* Entity.cpp */; };
 		1AC94048180D5CC700734EFD /* Missile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC94046180D5CC700734EFD /* Missile.cpp */; };
 		1ADEBDCA180E0CE000BEDCAD /* GridLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ADEBDC8180E0CE000BEDCAD /* GridLayer.cpp */; };
+		1ADEC044181BDEDB00038F00 /* back_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ADEC043181BDEDB00038F00 /* back_01.png */; };
+		1ADEC046181BDF1C00038F00 /* suncenter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1ADEC045181BDF1C00038F00 /* suncenter.png */; };
+		1ADEC049181BDF4E00038F00 /* SunBackgroundLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ADEC047181BDF4E00038F00 /* SunBackgroundLayer.cpp */; };
 		1AF389021802393D0080CB20 /* Interpolator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AF389001802393D0080CB20 /* Interpolator.cpp */; };
 /* End PBXBuildFile section */
 
@@ -979,6 +982,10 @@
 		1AC94047180D5CC700734EFD /* Missile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Missile.h; sourceTree = "<group>"; };
 		1ADEBDC8180E0CE000BEDCAD /* GridLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GridLayer.cpp; sourceTree = "<group>"; };
 		1ADEBDC9180E0CE000BEDCAD /* GridLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridLayer.h; sourceTree = "<group>"; };
+		1ADEC043181BDEDB00038F00 /* back_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_01.png; sourceTree = "<group>"; };
+		1ADEC045181BDF1C00038F00 /* suncenter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = suncenter.png; sourceTree = "<group>"; };
+		1ADEC047181BDF4E00038F00 /* SunBackgroundLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SunBackgroundLayer.cpp; sourceTree = "<group>"; };
+		1ADEC048181BDF4E00038F00 /* SunBackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SunBackgroundLayer.h; sourceTree = "<group>"; };
 		1AF388E4180234E80080CB20 /* jama_cholesky.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jama_cholesky.h; sourceTree = "<group>"; };
 		1AF388E5180234E80080CB20 /* jama_eig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jama_eig.h; sourceTree = "<group>"; };
 		1AF388E6180234E80080CB20 /* jama_lu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jama_lu.h; sourceTree = "<group>"; };
@@ -1081,6 +1088,7 @@
 			children = (
 				1AC5F69F181A86C400EDB45A /* Arial_32_Green.fnt */,
 				1AC5F6A0181A86C400EDB45A /* Arial_32_Green.png */,
+				1ADEC043181BDEDB00038F00 /* back_01.png */,
 				1A92B7E01801F65A00F434EE /* CloseNormal.png */,
 				1A92B7E21801F65A00F434EE /* CloseSelected.png */,
 				1A92B7E41801F65A00F434EE /* Default.png */,
@@ -1091,6 +1099,7 @@
 				1A92B7EE1801F65A00F434EE /* Icon-Small@2x.png */,
 				1A92B7F01801F65A00F434EE /* Icon.png */,
 				1A92B7F21801F65A00F434EE /* Icon@2x.png */,
+				1ADEC045181BDF1C00038F00 /* suncenter.png */,
 				1A92B7F41801F65A00F434EE /* iTunesArtwork */,
 				1A92B7F61801F65A00F434EE /* Info.plist */,
 				1A92BBA81801F66000F434EE /* blocks.png */,
@@ -2317,6 +2326,8 @@
 				1A92BBC61801F94D00F434EE /* SingletonTemplate.h */,
 				1A92BBBB1801F85F00F434EE /* Stopwatch.cpp */,
 				1A92BBBC1801F85F00F434EE /* Stopwatch.h */,
+				1ADEC047181BDF4E00038F00 /* SunBackgroundLayer.cpp */,
+				1ADEC048181BDF4E00038F00 /* SunBackgroundLayer.h */,
 				1A92BBBD1801F85F00F434EE /* TapDragPinchInput.cpp */,
 				1A92BBBE1801F85F00F434EE /* TapDragPinchInput.h */,
 				1A4A4EC61801FC6400347E01 /* Viewport.cpp */,
@@ -2412,7 +2423,9 @@
 				1A92B7F11801F65A00F434EE /* Icon.png in Resources */,
 				1A92B8941801F65B00F434EE /* ChangeLog in Resources */,
 				1AC5F6A2181A86C400EDB45A /* Arial_32_Green.png in Resources */,
+				1ADEC044181BDEDB00038F00 /* back_01.png in Resources */,
 				1A92B7E11801F65A00F434EE /* CloseNormal.png in Resources */,
+				1ADEC046181BDF1C00038F00 /* suncenter.png in Resources */,
 				1A92B7ED1801F65A00F434EE /* Icon-Small.png in Resources */,
 				1A92B7E91801F65A00F434EE /* Icon-72.png in Resources */,
 				1A92B7E71801F65A00F434EE /* HelloWorld.png in Resources */,
@@ -2480,6 +2493,7 @@
 				1A92B99A1801F65E00F434EE /* CCComponentContainer.cpp in Sources */,
 				1A92B9741801F65D00F434EE /* CCSprite.cpp in Sources */,
 				1A92B9EC1801F65E00F434EE /* CCTouchDispatcher.cpp in Sources */,
+				1ADEC049181BDF4E00038F00 /* SunBackgroundLayer.cpp in Sources */,
 				1A92BAF31801F65F00F434EE /* Skeleton.cpp in Sources */,
 				1A92BA0C1801F65E00F434EE /* AssetsManager.cpp in Sources */,
 				1A92B8921801F65B00F434EE /* aabb.c in Sources */,
