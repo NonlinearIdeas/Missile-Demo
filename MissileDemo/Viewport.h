@@ -11,8 +11,6 @@
 
 #include "CommonProject.h"
 #include "CommonSTL.h"
-#include "Notifier.h"
-#include "MathUtilities.h"
 #include "SingletonTemplate.h"
 
 /* This class provides a mechanism to map a portion of 
@@ -23,6 +21,27 @@
  * requesting dimensions of the viewport.  The viewport is
  * always a scale factor of the pixel dimensions of the 
  * screen.
+ *
+ *
+ *****************************************************
+ *        THIS IS VERY IMPORTANT - PLEASE READ       *
+ *****************************************************
+ *
+ * The Viewport does not exist and work by itself, 
+ * it uses the Notitifer to let others know when the 
+ * viewport has changed.  Currently, it only emits
+ * an NE_VIEWPORT_CHANGED notification, but it could
+ * also emit different notifications for scale vs.
+ * center changes.  
+ *
+ * This can be used to change presentation (e.g. 
+ * level of detail) based on the changes in scale.
+ *
+ * Currently, it is used to update the position of
+ * a displayed "grid" over the screen.  This grid
+ * gives the user the perception of "distance" and
+ * scale like a parallax view, but in two dimensions.
+ *
  */
 class Viewport : public SingletonDynamic<Viewport>
 {
@@ -39,6 +58,10 @@ private:
    Vec2 _vBottomLeftMeters;
    Vec2 _vTopRightMeters;
    CCSize _vSizeMeters;
+   
+   // Min/Max Scale Limits
+   float32 _vScaleMin;
+   float32 _vScaleMax;
    
    // Values for converting meters to pixels.
    CCPoint _vScalePixelToMeter;
@@ -67,178 +90,48 @@ private:
     * The value Wxmin = viewport center - 1/2 the width of the viewport
     * etc.
     */
-   void CalculateViewport()
-   {
-      // Bottom Left and Top Right of the viewport
-      _vSizeMeters.width = _vScale*_worldSizeMeters.width;
-      _vSizeMeters.height = _vScale*_worldSizeMeters.height/_aspectRatio;
-      
-      _vBottomLeftMeters.x = _vCenterMeters.x - _vSizeMeters.width/2;
-      _vBottomLeftMeters.y = _vCenterMeters.y - _vSizeMeters.height/2;
-      _vTopRightMeters.x = _vCenterMeters.x + _vSizeMeters.width/2;
-      _vTopRightMeters.y = _vCenterMeters.y + _vSizeMeters.height/2;
-      
-      // Scale from Pixels/Meters
-      _vScalePixelToMeter.x = _screenSizePixels.width/(_vSizeMeters.width);
-      _vScalePixelToMeter.y = _screenSizePixels.height/(_vSizeMeters.height);
-      
-      // Offset based on the screen center.
-      _vOffsetPixels.x = -_vScalePixelToMeter.x * (_vCenterMeters.x - _vScale*_worldSizeMeters.width/2);
-      _vOffsetPixels.y = -_vScalePixelToMeter.y * (_vCenterMeters.y - _vScale*_worldSizeMeters.height/2/_aspectRatio);
-      
-      _ptmRatio = _screenSizePixels.width/_vSizeMeters.width;
-      
-      Notifier::Instance().Notify(Notifier::NE_VIEWPORT_CHANGED);
-      
-   }
-   
+   void CalculateViewport();
    
 public:
-   
-   bool Init(float32 worldSizeMeters)
-   {
-      _worldSizeMeters.width = worldSizeMeters;
-      _worldSizeMeters.height = worldSizeMeters;
-      _screenSizePixels = CCDirector::sharedDirector()->getWinSize();
-      _aspectRatio = _screenSizePixels.width/_screenSizePixels.height;
-      Reset();
-      return true;
-   }
 
+   // SingletonTemplate virtuals and construction.
+   bool Init(float32 worldSizeMeters);
+   virtual void Reset();
+   virtual bool Init();
+   virtual void Shutdown();
    
-   virtual void Reset()
-   {
-      _vScale = 1.0;
-      _vCenterMeters = Vec2(0.0f,0.0f);
-      CalculateViewport();
-   }
+   // Inline for the getters.  Most of these do not have
+   // a specific "setter" but are internal members that can be
+   // read and used.
+   inline const Vec2& GetCenterMeters() { return _vCenterMeters; }
+   inline const Vec2& GetBottomLeftMeters() { return _vBottomLeftMeters; }
+   inline const Vec2& GetTopRightMeters() { return _vTopRightMeters; }
+   inline const CCSize& GetWorldSizeMeters() { return _worldSizeMeters; }
+   inline float32 GetScale() { return _vScale; }
+   inline float32 GetPTMRatio() { return _ptmRatio; }
+   inline float32 GetViewportScaleMin() { return _vScaleMin; }
+   inline float32 GetViewportScaleMax() { return _vScaleMax; }
    
-   virtual bool Init()
-   {
-      return Init(50.0f);
-   }
+   // Change the scale of the viewport.  Note that the scale change will
+   // not work if the scale is set outsize the min/max (see getters).
+   void SetScale(float32 scale);
+   void SetCenter(const Vec2& position);
    
-   virtual void Shutdown()
-   {
-      
-   }
+   // Check if a position is within the range of the view.
+   // Include a radius component so we can look at stuff that
+   // might be *close* to an edge.
+   bool IsInViewport(const Vec2& position, float32 radius = 0.0f);
    
-   void SetCenter(const Vec2& position)
-   {
-      _vCenterMeters = position;
-      CalculateViewport();
-   }
+   // Convert a position in meters to pixel coordinates.
+   CCPoint Convert(const Vec2& position);
    
-   const Vec2& GetCenterMeters() { return _vCenterMeters; }
-   const Vec2& GetBottomLeftMeters() { return _vBottomLeftMeters; }
-   const Vec2& GetTopRightMeters() { return _vTopRightMeters; }
-   const CCSize& GetWorldSizeMeters() { return _worldSizeMeters; }
+   // Convert a pixel coordinate to position in meters.
+   Vec2 Convert(const CCPoint& pixel);
    
-   float32 GetScale()
-   {
-      return _vScale;
-   }
-   
-   void SetScale(float32 scale)
-   {
-      const float32 SCALE_MIN = 0.1;
-      const float32 SCALE_MAX = 2.0;
-      if(scale > SCALE_MIN &&
-         scale <= SCALE_MAX)
-      {
-         _vScale = scale;
-         CalculateViewport();
-      }
-   }
-   
-   /* Check if a position is within the range of the view.
-    * Include a radius component so we can look at stuff that
-    * might be *close* to an edge.
-    */
-   bool IsInViewport(const Vec2& position, float32 radius = 0.0f)
-   {
-      if(position.x < _vBottomLeftMeters.x - radius)
-         return false;
-      if(position.x > _vTopRightMeters.x + radius)
-         return false;
-      if(position.y < _vBottomLeftMeters.y - radius)
-         return false;
-      if(position.y > _vTopRightMeters.y + radius)
-         return false;
-      return true;
-   }
-   
-   /* To convert a position (meters) to a pixel, we use
-    * the y = mx + b conversion.
-    */
-   CCPoint Convert(const Vec2& position)
-   {
-      float32 xPixel = position.x * _vScalePixelToMeter.x + _vOffsetPixels.x;
-      float32 yPixel = position.y * _vScalePixelToMeter.y + _vOffsetPixels.y;
-      return ccp(xPixel,yPixel);
-   }
-   
-   /* To convert a pixel to a position (meters), we invert
-    * the linear equation to get x = (y-b)/m.
-    */
-   Vec2 Convert(const CCPoint& pixel)
-   {
-      float32 xMeters = (pixel.x-_vOffsetPixels.x)/_vScalePixelToMeter.x;
-      float32 yMeters = (pixel.y-_vOffsetPixels.y)/_vScalePixelToMeter.y;
-      return Vec2(xMeters,yMeters);
-   }
-   
-   /* Get the current PTM ratio.
-    * This is the ratio of the screen width in pixels divided by the viewport width 
-    * in meters.
-    */
-   float32 GetPTMRatio() { return _ptmRatio; }
-   
-   /* Update the viewport to track a position.  A percentage value is
-    * supplied with the call.  This is the percent of the viewport, from
-    * any side, that the point must be in.  The range is [0,0.5].
-    */
-   void TrackPosition(Vec2& position, float32 percent)
-   {
-      Vec2 vBotLeft = _vBottomLeftMeters;
-      Vec2 vTopRight = _vTopRightMeters;
-      Vec2 vCenter = _vCenterMeters;
-      
-      assert(percent <= 0.5);
-      assert(percent >= 0.0);
-      
-      float32 leftEdge = MathUtilities::LinearTween(percent, vBotLeft.x, vTopRight.x);
-      float32 rightEdge = MathUtilities::LinearTween(1-percent, vBotLeft.x, vTopRight.x);
-      float32 topEdge = MathUtilities::LinearTween(1-percent, vBotLeft.y, vTopRight.y);
-      float32 botEdge = MathUtilities::LinearTween(percent, vBotLeft.y, vTopRight.y);
-      bool needsUpdate = false;
-      
-      if(position.x < leftEdge)
-      {
-         needsUpdate = true;
-         vCenter.x -= (leftEdge-position.x);
-      }
-      if(position.x > rightEdge)
-      {
-         needsUpdate = true;
-         vCenter.x += (position.x-rightEdge);
-      }
-      if(position.y < botEdge)
-      {
-         needsUpdate = true;
-         vCenter.y -= (botEdge-position.y);
-      }
-      if(position.y > topEdge)
-      {
-         needsUpdate = true;
-         vCenter.y += position.y-topEdge;
-      }
-      
-      if(needsUpdate)
-      {
-         SetCenter(vCenter);
-      }
-   }
+   // Update the viewport to track a position.  A percentage value is
+   // supplied with the call.  This is the percent of the viewport, from
+   // any side, that the point must be in.  The range is [0,0.5].
+   void TrackPosition(Vec2& position, float32 percent);
 };
 
 #endif /* defined(__Box2DTestBed__v__) */
