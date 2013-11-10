@@ -22,6 +22,10 @@
  * m = Sxmax/(Wxmax - Wxmin) and
  * b = -Wxmin*Sxmax/(Wxmax - Wxmin) (= -m * Wxmin)
  *
+ * We replace (Wxmax - Wxmin) with scale*(Wxmax-Wxmin) for the 
+ * x dimension and scale*(Wymax-Wymin)/aspectRatio in the y
+ * dimension.
+ *
  * The value (Wxmax - Wxmin) = scale*worldSizeMeters (xDimension)
  * The value Wxmin = viewport center - 1/2 the width of the viewport
  * etc.
